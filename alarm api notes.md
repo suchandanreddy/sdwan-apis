@@ -8,7 +8,7 @@
   
 # URL Structure Components
 
-https://<vmanage-ip:port>/dataservice/alarms 
+  - URL to fetch alarms is https://<vmanage-ip:port>/dataservice/alarms 
 
 |  |  |
 | ------ | ------ |
