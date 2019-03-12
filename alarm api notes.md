@@ -73,6 +73,8 @@ Now let’s define the Query which can be used to collect alarms using POST oper
 
 #   Query Payload
 
+Samples on how to build Query payload to retrieve alarms
+
 #   Example-1
 
 Between operator can be used to fetch the alarms for a custom interval for example i.e. 4:51:00 UTC to 4:57:00 UTC ( 6 mins interval )
@@ -98,6 +100,7 @@ Between operator can be used to fetch the alarms for a custom interval for examp
 ```
 
 #   Example-2  
+
 Collect only cleared Medium, Critical alarms between 4:57 and 4:58
 
 ```
