@@ -319,7 +319,7 @@ Now let's have a look at the responses to POST operation
 
 # Example-2
 
-Response which has both Active and Cleared alarms , alarms can be correlated further based on uuid value. For example we can see alarm with uuid "36af5221-d248-4aef-bed6-0f9a59b30f98" is a cleared event which indicates *"The interface oper-state changed to up"* , The alarm that got cleared is provided by list of uuids in *cleared_events* : 9f75552d-4a2b-4085-9dcc-fd15148cf078
+Response which has both Active and Cleared alarms. Alarms can be correlated further based on uuid value. For example we can see alarm with uuid "36af5221-d248-4aef-bed6-0f9a59b30f98" is a cleared event which indicates *"The interface oper-state changed to up"* , The alarm that got cleared is provided by list of uuids in *cleared_events* : 9f75552d-4a2b-4085-9dcc-fd15148cf078
 
 ```
   {
