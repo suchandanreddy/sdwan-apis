@@ -10,7 +10,6 @@
 
 https://<vmanage-ip:port>/dataservice/alarms 
 
-|  |  |
 | ------ | ------ |
 | http:// or https://  | Protocol over which data is sent  between client and server |
 | Server or Host  | Resolves to the IP and port to which to connect, example : "<vmanage-ip:port>" |
@@ -47,7 +46,6 @@ Now after login check sess.cookies for JESSIONID value
 ```
 
 # Login Function
-#
 
 ```
     def login(self, vmanage_host, username, password):
