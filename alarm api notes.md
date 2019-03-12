@@ -10,6 +10,8 @@
 
 https://<vmanage-ip:port>/dataservice/alarms 
 
+|  |  |
+| ------ | ------ |
 | http:// or https://  | Protocol over which data is sent  between client and server |
 | Server or Host  | Resolves to the IP and port to which to connect, example : "<vmanage-ip:port>" |
 | Resource | The location of the data or object of  interest, example : "dataservice/alarms" |
