@@ -83,7 +83,7 @@ vmanage_session = rest_api_lib(vmanage_host, vmanage_port, username, password)
 
 fw_inspect_payload = {"aggregation":{"metrics":[{"property":"fw_total_insp_count","type":"sum","order":"desc"}],"histogram":{"property":"entry_time","type":"minute","interval":30,"order":"asc"}},"query":{"condition":"AND","rules":[{"value":["24"],"field":"entry_time","type":"date","operator":"last_n_hours"},{"value":["total"],"field":"type","type":"string","operator":"in"}]}}
 
-fw_drop_payload = {"aggregation":{"metrics":[{"property":"fw_total_drop_count","type":"sum","order":"desc"}],"histogram":{"property":"entry_time","type":"minute","interval":30,"order":"asc"}},"query":{"condition":"AND","rules":[{"value":["24"],"field":"entry_time","type":"date","operator":"last_n_hours"},{"value":["total"],"field":"type","type":"string","operator":"in"},{"value":["total"],"field":"type","type":"string","operator":"in"},{"value":["total"],"field":"type","type":"string","operator":"in"},{"value":["total"],"field":"type","type":"string","operator":"in"}]}}
+fw_drop_payload = {"aggregation":{"metrics":[{"property":"fw_total_drop_count","type":"sum","order":"desc"}],"histogram":{"property":"entry_time","type":"minute","interval":30,"order":"asc"}},"query":{"condition":"AND","rules":[{"value":["24"],"field":"entry_time","type":"date","operator":"last_n_hours"},{"value":["total"],"field":"type","type":"string","operator":"in"}]}}
 
 fw_inspect_response = vmanage_session.post_request("statistics/fwall/aggregation",fw_inspect_payload)
 
