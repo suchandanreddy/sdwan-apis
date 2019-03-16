@@ -1,7 +1,7 @@
 # Webhook 
 
 -   Webhooks enable push-model mechanism to send notifications in real-time.
--   In order to retrieve alarms in real-time from the vManage using the REST API's, we need to poll for the data frequently However by using webhooks vManage can send HTTP POST request to the external systems in real-time once alarm is received. 
+-   In order to retrieve alarms in real-time from the vManage using the REST API's, we need to poll for the data frequently. However by using webhooks vManage can send HTTP POST request to the external systems in real-time once alarm is received. 
 -   Webhooks are sometimes referred to as “Reverse APIs,” and we must design an API to consume or process the data sent via webhook.
 
 # Prerequisites
