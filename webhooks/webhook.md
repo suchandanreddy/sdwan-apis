@@ -81,7 +81,7 @@ vmanage:~$ curl -v -X POST -H 'Content-type: application/json' https://webhook.s
 vmanage:~$
 ```
 
-# Set up webhook server on ubuntu
+# Set up Webhook server on ubuntu
 
 Now let’s try to set up webhook server on ubuntu to accept notifications sent from vManage
 
