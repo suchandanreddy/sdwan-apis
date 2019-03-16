@@ -16,7 +16,7 @@ Steps to enable webhook notifications for pushing alarms to external systems.
 -    Enable webhook checkbox. 
 -    Select severity level and Alarms for which webhook notifications should be triggered.
 -    Provide the webhook server URL, username and password for webhook. ( Note : If webhook server doesn't have authentication configured, please provide dummy username and password )
--    Webhook URL can be http;// or https://
+-    Webhook URL can be http:// or https://
 
 Note: provide the dummy email address as place holder for Email notifications and then click Add.
 
@@ -143,7 +143,7 @@ Sample output on webhook server on receiving notifications from the vManage.
 
 ![alarms](alarms.png)
 
-# References:
+# References
 
 online webhooks can be set up using https://webhook.site
 
