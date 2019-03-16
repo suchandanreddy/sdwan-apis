@@ -6,7 +6,7 @@
 
 # Prerequisites
 
--	  This feature is supported from vManage 18.3 release onwards
+-  This feature is supported from vManage 18.3 release onwards
 
 # Configure
 
