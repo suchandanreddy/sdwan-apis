@@ -1,7 +1,7 @@
 # Webhook 
 
 -   Webhooks enable push-model mechanism to send notifications in real-time.
--   In order to retrieve alarms in real-time from the vManage using the REST API's, we need to poll for the data frequently. However by using webhooks vManage can send HTTP POST request to the external systems in real-time once alarm is received. 
+-   In order to retrieve alarms in real-time from the vManage using the REST API's, we need to poll for the data frequently. However by using webhooks, vManage can send HTTP POST request to the external systems in real-time once alarm is received. 
 -   Webhooks are sometimes referred to as “Reverse APIs,” and we must design an API to consume or process the data sent via webhook.
 
 # Prerequisites
@@ -18,9 +18,9 @@ Steps to enable webhook notifications for pushing alarms to external systems.
 -    Provide the webhook server URL, username and password for webhook. ( Note : If webhook server doesn't have authentication configured, please provide dummy username and password )
 -    Webhook URL can be http;// or https://
 
-P.S Please provide the dummy email address as place holder for Email notifications and then click Add.
+Note: provide the dummy email address as place holder for Email notifications and then click Add.
 
-Below is an example screenshot, Here we are enabling webhook notifications for Critical and medium alarms related to *"interface-admin-state-change"* and *"interface-state-change"*
+Below is an example screenshot, Here we are enabling webhook notifications for Critical and Medium alarms related to *"interface-admin-state-change"* and *"interface-state-change"*
 
 ![webhook](webhook_create_4.png)
 
