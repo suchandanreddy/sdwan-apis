@@ -507,5 +507,3 @@ Use time function to convert epoch values to format MM-DD-YYYY HH-MM-SS format
 ```
 
 Complete script can be accessed [here](https://github.com/suchandanreddy/sdwan-apis/blob/master/alarms_api.py)
-
-                  [Next](https://github.com/suchandanreddy/sdwan-apis/blob/master/webhooks/webhook.md)
