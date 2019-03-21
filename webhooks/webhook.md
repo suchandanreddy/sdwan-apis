@@ -1,7 +1,3 @@
-# Table of Contents
-
-[1 Webhook](https://github.com/suchandanreddy/sdwan-apis/blob/master/webhooks/webhook.md#webhook)
-
 # Webhook 
 
 -   Webhooks enable push-model mechanism to send notifications in real-time.
