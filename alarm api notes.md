@@ -10,7 +10,7 @@
 
   - URL to fetch alarms is https://<vmanage-ip:port>/dataservice/alarms 
 
-|  |  |
+| Component  | Description |
 | ------ | ------ |
 | http:// or https://  | Protocol over which data is sent  between client and server |
 | Server or Host  | Resolves to the IP and port to which to connect, example : "<vmanage-ip:port>" |
