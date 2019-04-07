@@ -306,9 +306,9 @@ See the below sample response which includes all the information retrieved for o
 **Sample Response**  
   
 ```
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py list-devices
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py list-devices
 Retrieving the device list
-https://198.18.1.10:443/dataservice/device
+https://vmanage-ip:port/dataservice/device
 
 Device details retrieved for one network device
 {'bfdSessions': '8',
@@ -381,7 +381,6 @@ list of all devices retrieved
 │ DC2-VEDGE2  │ vedge         │    41.87   │     -87.62  │ Valid         │ 18.4.0    │ vedge-cloud     │ 10.2.0.2    │
 ╘═════════════╧═══════════════╧════════════╧═════════════╧═══════════════╧═══════════╧═════════════════╧═════════════╛
 
-C:\Users\Administrator\Desktop>
 ```
 
 ##	Control Status
@@ -417,9 +416,9 @@ Options:
 #cedge 
   
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py control-status --system_ip 10.3.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py control-status --system_ip 10.3.0.1
 Retrieving the Control Status
-https://198.18.1.10:443/dataservice/device/control/synced/connections?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/control/synced/connections?deviceId=10.3.0.1
 
 Control Connection status for Device =  10.3.0.1
 ╒═════════════╤══════════════════╤═════════╤═════════════════════╕
@@ -436,13 +435,11 @@ Control Connection status for Device =  10.3.0.1
 │ vmanage     │ 10.10.10.10      │ up      │ 03/20/2019 01:58:50 │
 ╘═════════════╧══════════════════╧═════════╧═════════════════════╛
 
-C:\Users\Administrator\Desktop>
-
 #vedge
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py control-status --system_ip 10.2.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py control-status --system_ip 10.2.0.1
 Retrieving the Control Status
-https://198.18.1.10:443/dataservice/device/control/synced/connections?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/control/synced/connections?deviceId=10.2.0.1
 
 Control Connection status for Device =  10.2.0.1
 ╒═════════════╤══════════════════╤═════════╤═════════════════════╕
@@ -458,8 +455,6 @@ Control Connection status for Device =  10.2.0.1
 ├─────────────┼──────────────────┼─────────┼─────────────────────┤
 │ vsmart      │ 22.22.22.22      │ up      │ 03/24/2019 06:05:35 │
 ╘═════════════╧══════════════════╧═════════╧═════════════════════╛
-
-C:\Users\Administrator\Desktop>
 
 ```
 
@@ -477,9 +472,9 @@ In `interface-status` option, we use resource URI `device/interface/synced?devic
 #cedge
 
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py interface-status --system_ip 10.3.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.3.0.1
 Retrieving the interface Status
-https://198.18.1.10:443/dataservice/device/interface/synced?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/interface/synced?deviceId=10.3.0.1
 
 Interfaces status for Device =  10.3.0.1
 ╒═══════════════════╤══════════════════════╕
@@ -518,14 +513,14 @@ Interfaces status for Device =  10.3.0.1
 │ Loopback0         │ if-oper-state-ready  │
 ╘═══════════════════╧══════════════════════╛
 
-C:\Users\Administrator\Desktop>
+C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 #vedge 
 
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py interface-status --system_ip 10.2.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.2.0.1
 Retrieving the interface Status
-https://198.18.1.10:443/dataservice/device/interface/synced?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/interface/synced?deviceId=10.2.0.1
 
 Interfaces status for Device =  10.2.0.1
 ╒══════════════════╤══════════════════════╕
@@ -550,7 +545,7 @@ Interfaces status for Device =  10.2.0.1
 │ eth0             │ Up                   │
 ╘══════════════════╧══════════════════════╛
 
-C:\Users\Administrator\Desktop>
+C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 ```  
 
@@ -568,9 +563,9 @@ In `device-counters` option, we use resource URI `device/counters?deviceId=<syst
 ```
 #cedge
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1
 Retrieving the Device Counters
-https://198.18.1.10:443/dataservice/device/counters?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/counters?deviceId=10.3.0.1
 
 Device Counters for Device =  10.3.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
@@ -582,9 +577,9 @@ Device Counters for Device =  10.3.0.1
 #vedge
 
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py device-counters --system_ip 10.2.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py device-counters --system_ip 10.2.0.1
 Retrieving the Device Counters
-https://198.18.1.10:443/dataservice/device/counters?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/counters?deviceId=10.2.0.1
 
 Device Counters for Device =  10.2.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
@@ -593,7 +588,7 @@ Device Counters for Device =  10.2.0.1
 │              2 │                0 │                    4 │                10 │                   0 │
 ╘════════════════╧══════════════════╧══════════════════════╧═══════════════════╧═════════════════════╛
 
-C:\Users\Administrator\Desktop>
+C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 ```
 
@@ -610,9 +605,9 @@ In `system-status` option, we use resource URI `device/system/status?deviceId=<s
 ```
 #cedge
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py system-status --system_ip 10.3.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py system-status --system_ip 10.3.0.1
 Retrieving the System Status
-https://198.18.1.10:443/dataservice/device/system/status?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/system/status?deviceId=10.3.0.1
 
 System status for Device =  10.3.0.1
 ╒═════════════╤═════════════════════════════╤═══════════╤═══════════════╤══════════════╕
@@ -621,13 +616,13 @@ System status for Device =  10.3.0.1
 │ BR1-CEDGE1  │ 5 days 05 hrs 28 min 02 sec │ 16.10.1   │       4442764 │            6 │
 ╘═════════════╧═════════════════════════════╧═══════════╧═══════════════╧══════════════╛
 
-C:\Users\Administrator\Desktop>
+C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 #vedge
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py system-status --system_ip 10.2.0.1
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py system-status --system_ip 10.2.0.1
 Retrieving the System Status
-https://198.18.1.10:443/dataservice/device/system/status?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/system/status?deviceId=10.2.0.1
 
 System status for Device =  10.2.0.1
 ╒═════════════╤═════════════════════════════╤═══════════╤═══════════════╤══════════════╕
@@ -636,7 +631,7 @@ System status for Device =  10.2.0.1
 │ DC2-VEDGE1  │ 5 days 05 hrs 29 min 12 sec │ 18.4.0    │        684012 │         2.29 │
 ╘═════════════╧═════════════════════════════╧═══════════╧═══════════════╧══════════════╛
 
-C:\Users\Administrator\Desktop>
+C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 ```
 
@@ -676,9 +671,9 @@ In `template-list` option, we use resource URI `template/device` to fetch the li
 
 cedge and vedge template lists
 
-C:\Users\Administrator\Desktop>py -3.7 vmanage_apis.py template-list
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py template-list
 Retrieving the templates available.
-https://198.18.1.10:443/dataservice/template/device
+https://vmanage-ip:port/dataservice/template/device
 ╒═════════════════════════════╤═════════════════╤══════════════════════════════════════╤════════════════════╤════════════════════╕
 │ Template Name               │ Device Type     │ Template ID                          │   Attached devices │   Template version │
 ╞═════════════════════════════╪═════════════════╪══════════════════════════════════════╪════════════════════╪════════════════════╡
@@ -1947,13 +1942,13 @@ Once alarm is received on vmanage, vmanage pushes the notification to webhook se
 
 ```
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-admin-state-change', 'type': 'interface-admin-state-change', 'rulename': 'interface-admin-state-change', 'component': 'VPN', 'entry_time': 1553775129000, 'statcycletime': 1553775129000, 'message': 'The interface admin-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '6ac8ad69-b821-47ba-90f7-49cfcf86cf43', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'down', 'vpn-id': '512'}], 'rule_name_display': 'Interface_Admin_State_Change', 'receive_time': 1553775129959, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'down'}], 'acknowledged': False, 'active': True}
-198.18.1.10 - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1553775129000, 'statcycletime': 1553775129000, 'message': 'The interface oper-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '952a966a-5968-4a81-ab3c-0c817bfb39b9', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'down', 'vpn-id': '512'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1553775130145, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'down'}], 'acknowledged': False, 'active': True}
-198.18.1.10 - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1553775133000, 'statcycletime': 1553775133000, 'message': 'The interface oper-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '66ec20f7-7a87-4280-b4b4-d23dcc9d83ca', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'up', 'vpn-id': '512'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1553775133686, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'up'}], 'acknowledged': False, 'cleared_events': ['952a966a-5968-4a81-ab3c-0c817bfb39b9'], 'active': False}
-198.18.1.10 - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-admin-state-change', 'type': 'interface-admin-state-change', 'rulename': 'interface-admin-state-change', 'component': 'VPN', 'entry_time': 1553775133000, 'statcycletime': 1553775133000, 'message': 'The interface admin-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '32b55c04-ee36-4dfe-bc2c-8e7494c1ae9a', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'up', 'vpn-id': '512'}], 'rule_name_display': 'Interface_Admin_State_Change', 'receive_time': 1553775133713, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'up'}], 'acknowledged': False, 'cleared_events': ['6ac8ad69-b821-47ba-90f7-49cfcf86cf43'], 'active': False}
-198.18.1.10 - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
 ```
 
 ## Alarms on vManage
@@ -1971,9 +1966,6 @@ In this section, we learned how to enable webhook notifications on the vManage a
 # References
 
 [sdwan docs](https://sdwan-docs.cisco.com/Product_Documentation/Command_Reference/vManage_REST_APIs/vManage_REST_APIs_Overview/Using_the_vManage_REST_APIs)
-
-[Geo-fencing usecase](https://apps.na.collabserv.com/wikis/home?lang=en-us#!/wiki/Wf55b807c2437_4c65_8ec0_d65d759a3173/page/Cisco%20SD-WAN%20Geo-Fencing%20with%20vManage%20API)
-
 
 **Grafana Download link** 
 
