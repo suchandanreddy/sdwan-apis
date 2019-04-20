@@ -1,0 +1,5 @@
+template_name: 'vedge_cloud_banner'
+template_description: 'vedge_cloud_banner'
+login_banner: 'test_yaml_banner_login'
+motd_banner: 'test_yaml_banner_motd'
+device_type: 'vedge-cloud'
