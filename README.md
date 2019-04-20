@@ -29,8 +29,8 @@ Setup local environment variables to provide vManage instance details.
 Examples:
 
 ```
-export vmanage_host=sdwandemo.cisco.com
-export vmanage_port=8443
-export username=demo
-export password=demo
+export vmanage_host=<vmanage-ip>
+export vmanage_port=<vmanage-port>
+export username=<username>
+export password=<password>
 ```
