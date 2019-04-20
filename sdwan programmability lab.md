@@ -95,7 +95,7 @@ Table of Contents
 | Configuration	| Creating feature and device configuration templates, retrieving the configurations in existing templates. <br>**Resource URL:** /template/feature/ , /template/policy/ , /template/device/ |
 | Monitoring	| Viewing status, statistics, and other information about operational devices in the overlay network. <br>**Resource URL:** /alarms,  /statistics , /event |
 | Real-Time Monitoring	| Retrieving, viewing, and managing real-time statistics and traffic information. Real-time monitoring information is gathered in real time, approximately once per second. <br>**Resource URL:** /device/app-route/statistics , /device/bfd/status |
-| Troubleshooting | Tools	Troubleshooting devices, for determining the effect of policy, for updating software, and for retrieving software version information. <br>**Resource URL:** /device/action/software , /device/tools/ping/|
+| Troubleshooting Tools | Troubleshooting devices, for determining the effect of policy, for updating software, and for retrieving software version information. <br>**Resource URL:** /device/action/software , /device/tools/ping/|
 |Cross-Domain Integration API's| API's to integrate with SDA and ACI. <br>**Resource URL:** /partner |
 
 
