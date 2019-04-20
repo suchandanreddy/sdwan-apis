@@ -106,6 +106,113 @@ Table of Contents
 | InfluxDB  | 1.7.4 |
 | Grafana   | 6.0.2 |
 
+##	 Accessing the lab
+
+**Note** This lab utilizes the dCloud SD-WAN platform so, please schedule dcloud lab ahead of time before proceeding with below steps.
+
+![flow](images/Accessing_Lab.png)
+
+**Step-1**
+
+Connect to your dCloud session by opening your Cisco AnyConnect client and
+providing the following information to connect into the lab session:
+
+| Parameter | Input |
+| ------ | ------ |
+| AnyConnect Host | **Instructor Provided** |
+| Username | **Instructor Provided** |
+| Password| **Instructor Provided** |
+
+**Step-2**
+
+**RDP**
+
+![rdp](images/RDP.png)
+
+For MAC laptop users download link:
+https://itunes.apple.com/us/app/microsoft-remote-desktop-10/id1295203466 
+
+Open your local Remote Desktop Client application and connect to the lab Jumphost
+. This host has access to all network devices and can run our python scripts.  
+
+| Parameter | Input |
+| ------ | ------ |
+| Host | **Instructor Provided** |
+| Username | **Instructor Provided**  |
+| Password| **Instructor Provided** |
+
+Click ignore/continue if prompted with an invalid certificate warning:
+
+![rdp](images/windows-RDP.png)
+
+This will place you onto “WKST1,” which is the launching point for all lab tasks.
+
+**Step-3**
+
+Once you are on windows machine, launch the Google Chrome browser. 
+
+Open the box link `https://cisco.box.com/s/vd2h987bgnnlii7ib8bsg03uzqxup2x8` in google chrome browser and click on download. 
+
+![download](images/download.png) 
+
+Go to Downloads directory on file explorer and right click on the zip and select `extract all` as seen below 
+
+![extract-1](images/extract-1.png)
+
+Provide `C:\Users\Administrator\Desktop` as path and select Extract option. 
+
+![extract-2](images/extract-2.png) 
+
+Now please go to `sdwan_prog_lab` directory on Desktop and follow below installation instructions. 
+
+# Installation Instructions:
+
+## Python Installation
+
+**Step-1**
+
+Click on **python-3.7.3-amd64.exe** file and please enable **Add Python 3.7 to PATH** option and click on Install Now
+
+![python_1](images/python_installation_1.png)
+
+**Step-2**
+
+Once python installation is complete, please open windows command prompt and run `cd C:\Users\Administrator\Desktop\sdwan_prog_lab`
+
+**Step-3**
+
+Now install the python requirements by using the command `pip3 install -r requirements.txt`
+
+**Step-4**
+
+Run below commands using the vmanage ip address, port, login credentials from dcloud session details
+
+These commands should be run in command prompt to set the environment variables which stores vmanage details. 
+
+```
+set vmanage_host=<vmanage-ip>
+set vmanage_port=<vmanage-port>
+set username=<username>
+set password=<password>
+```
+
+## Influx DB Installation
+
+**Step-1**
+
+Go to directory `sdwan_prog_lab\influxdb-1.7.4-1` and **click on** the <b>influxd.exe</b> file to run.
+
+Minimize the command window pop-up and let influxd run in background. 
+
+## Grafana Installation
+
+**Step-1**
+
+Go to directory `sdwan_prog_lab\grafana-6.0.2\bin` and **click on** the <b>grafana-server.exe</b> file to run.
+
+Minimize the command window pop-up and let grafana server run in background. 
+
+
 
 #	 Lab Flow/Use cases
 
@@ -1239,6 +1346,8 @@ Select graph panel and edit Panel title to select the Influx DB as a data source
 
 ![vmanage](images/vmanage_screen.png)
 
+**Note:** You would see the different graph on Grafana dashboard based on the firewall inspect count on vManage in your dcloud set up. 
+
 ## Conclusion
 
 In this section we have learned
@@ -1816,6 +1925,8 @@ e': 1554138883061, 'vmanage-system-ip': '10.1.0.1', 'local-system-ip': '10.1.0.1
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>
 ```
+
+**Note:** You would see different output based on the alarms reported in vManage of your dcloud setup. 
 
 ## Conclusion
 
