@@ -13,7 +13,7 @@ Clone the code to local machine.
 
 ```
 git clone https://github.com/suchandanreddy/sdwan-apis.git
-cd sdwan-apis
+cd sdwan-apis/code_samples
 ```
 
 Setup Python Virtual Environment (requires Python 3.7+)
