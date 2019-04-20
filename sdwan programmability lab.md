@@ -108,7 +108,7 @@ Table of Contents
 
 ##	 Accessing the lab
 
-**Note** This lab utilizes the dCloud SD-WAN platform so, please schedule dcloud lab ahead of time before proceeding with below steps.
+**Note:** This lab utilizes the dCloud SD-WAN platform so, please schedule dcloud lab ahead of time before proceeding with below steps.
 
 ![flow](images/Accessing_Lab.png)
 
