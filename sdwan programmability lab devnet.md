@@ -12,10 +12,6 @@ Table of Contents
    * [Lab Overview](#lab-overview)
       * [Platforms and software used](#platforms-and-software-used)
       * [Accessing the lab](#accessing-the-lab)
-   * [Installation Instructions:](#installation-instructions)
-      * [Python Installation](#python-installation)
-      * [Influx DB Installation](#influx-db-installation)
-      * [Grafana Installation](#grafana-installation)
    * [Lab Flow/Use cases](#lab-flowuse-cases)
    * [Usecase-1: Device and Monitoring API's](#usecase-1-device-and-monitoring-apis)
       * [Code Components](#code-components)
@@ -366,7 +362,7 @@ See the below sample response which includes all the information retrieved for o
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py list-devices
 Retrieving the device list
-https://vmanage-ip:port/dataservice/device
+https://198.18.1.10:443/dataservice/device
 
 Device details retrieved for one network device
 {'bfdSessions': '8',
@@ -476,7 +472,7 @@ Options:
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py control-status --system_ip 10.3.0.1
 Retrieving the Control Status
-https://vmanage-ip:port/dataservice/device/control/synced/connections?deviceId=10.3.0.1
+https://198.18.1.10:443/dataservice/device/control/synced/connections?deviceId=10.3.0.1
 
 Control Connection status for Device =  10.3.0.1
 ╒═════════════╤══════════════════╤═════════╤═════════════════════╕
@@ -497,7 +493,7 @@ Control Connection status for Device =  10.3.0.1
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py control-status --system_ip 10.2.0.1
 Retrieving the Control Status
-https://vmanage-ip:port/dataservice/device/control/synced/connections?deviceId=10.2.0.1
+https://198.18.1.10:443/dataservice/device/control/synced/connections?deviceId=10.2.0.1
 
 Control Connection status for Device =  10.2.0.1
 ╒═════════════╤══════════════════╤═════════╤═════════════════════╕
@@ -532,7 +528,7 @@ In `interface-status` option, we use resource URI `device/interface/synced?devic
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.3.0.1
 Retrieving the interface Status
-https://vmanage-ip:port/dataservice/device/interface/synced?deviceId=10.3.0.1
+https://198.18.1.10:443/dataservice/device/interface/synced?deviceId=10.3.0.1
 
 Interfaces status for Device =  10.3.0.1
 ╒═══════════════════╤══════════════════════╕
@@ -578,7 +574,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.2.0.1
 Retrieving the interface Status
-https://vmanage-ip:port/dataservice/device/interface/synced?deviceId=10.2.0.1
+https://198.18.1.10:443/dataservice/device/interface/synced?deviceId=10.2.0.1
 
 Interfaces status for Device =  10.2.0.1
 ╒══════════════════╤══════════════════════╕
@@ -623,7 +619,7 @@ In `device-counters` option, we use resource URI `device/counters?deviceId=<syst
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1
 Retrieving the Device Counters
-https://vmanage-ip:port/dataservice/device/counters?deviceId=10.3.0.1
+https://198.18.1.10:443/dataservice/device/counters?deviceId=10.3.0.1
 
 Device Counters for Device =  10.3.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
@@ -637,7 +633,7 @@ Device Counters for Device =  10.3.0.1
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py device-counters --system_ip 10.2.0.1
 Retrieving the Device Counters
-https://vmanage-ip:port/dataservice/device/counters?deviceId=10.2.0.1
+https://198.18.1.10:443/dataservice/device/counters?deviceId=10.2.0.1
 
 Device Counters for Device =  10.2.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
@@ -665,7 +661,7 @@ In `system-status` option, we use resource URI `device/system/status?deviceId=<s
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py system-status --system_ip 10.3.0.1
 Retrieving the System Status
-https://vmanage-ip:port/dataservice/device/system/status?deviceId=10.3.0.1
+https://198.18.1.10:443/dataservice/device/system/status?deviceId=10.3.0.1
 
 System status for Device =  10.3.0.1
 ╒═════════════╤═════════════════════════════╤═══════════╤═══════════════╤══════════════╕
@@ -680,7 +676,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py system-status --system_ip 10.2.0.1
 Retrieving the System Status
-https://vmanage-ip:port/dataservice/device/system/status?deviceId=10.2.0.1
+https://198.18.1.10:443/dataservice/device/system/status?deviceId=10.2.0.1
 
 System status for Device =  10.2.0.1
 ╒═════════════╤═════════════════════════════╤═══════════╤═══════════════╤══════════════╕
@@ -731,7 +727,7 @@ cedge and vedge template lists
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py template-list
 Retrieving the templates available.
-https://vmanage-ip:port/dataservice/template/device
+https://198.18.1.10:443/dataservice/template/device
 ╒═════════════════════════════╤═════════════════╤══════════════════════════════════════╤════════════════════╤════════════════════╕
 │ Template Name               │ Device Type     │ Template ID                          │   Attached devices │   Template version │
 ╞═════════════════════════════╪═════════════════╪══════════════════════════════════════╪════════════════════╪════════════════════╡
