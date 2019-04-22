@@ -12,6 +12,10 @@ Table of Contents
    * [Lab Overview](#lab-overview)
       * [Platforms and software used](#platforms-and-software-used)
       * [Accessing the lab](#accessing-the-lab)
+   * [Installation Instructions:](#installation-instructions)
+      * [Python Installation](#python-installation)
+      * [Influx DB Installation](#influx-db-installation)
+      * [Grafana Installation](#grafana-installation)
    * [Lab Flow/Use cases](#lab-flowuse-cases)
    * [Usecase-1: Device and Monitoring API's](#usecase-1-device-and-monitoring-apis)
       * [Code Components](#code-components)
@@ -148,18 +152,72 @@ Click ignore/continue if prompted with an invalid certificate warning:
 
 This will place you onto “WKST1,” which is the launching point for all lab tasks.
 
-On this workstation, we have python scripts in directory `sdwan_prog_lab` on Desktop
+**Step-3**
+
+Once you are on windows machine, launch the Google Chrome browser. 
+
+Open the box link `https://cisco.box.com/s/vd2h987bgnnlii7ib8bsg03uzqxup2x8` in google chrome browser and click on download. 
+
+![download](images/download.png) 
+
+Go to Downloads directory on file explorer and right click on the zip and select `extract all` as seen below 
+
+![extract-1](images/extract-1.png)
+
+Provide `C:\Users\Administrator\Desktop` as path and select Extract option. 
+
+![extract-2](images/extract-2.png) 
+
+Now please go to `sdwan_prog_lab` directory on Desktop and follow below installation instructions. 
+
+# Installation Instructions:
+
+## Python Installation
+
+**Step-1**
+
+Click on **python-3.7.3-amd64.exe** file and please enable **Add Python 3.7 to PATH** option and click on Install Now
+
+![python_1](images/python_installation_1.png)
+
+**Step-2**
+
+Once python installation is complete, please open windows command prompt and run `cd C:\Users\Administrator\Desktop\sdwan_prog_lab`
 
 **Step-3**
 
-Run below commands in windows command prompt to set the environment variables which stores vmanage details. 
+Now install the python requirements by using the command `pip3 install -r requirements.txt`
+
+**Step-4**
+
+Run below commands using the vmanage ip address, port, login credentials from dcloud session details
+
+These commands should be run in command prompt to set the environment variables which stores vmanage details. 
 
 ```
-set vmanage_host=198.18.1.10
-set vmanage_port=443
-set username=admin
-set password=admin
-``` 
+set vmanage_host=<vmanage-ip>
+set vmanage_port=<vmanage-port>
+set username=<username>
+set password=<password>
+```
+
+## Influx DB Installation
+
+**Step-1**
+
+Go to directory `sdwan_prog_lab\influxdb-1.7.4-1` and **click on** the <b>influxd.exe</b> file to run.
+
+Minimize the command window pop-up and let influxd run in background. 
+
+## Grafana Installation
+
+**Step-1**
+
+Go to directory `sdwan_prog_lab\grafana-6.0.2\bin` and **click on** the <b>grafana-server.exe</b> file to run.
+
+Minimize the command window pop-up and let grafana server run in background. 
+
+
 
 #	 Lab Flow/Use cases
 
@@ -362,7 +420,7 @@ See the below sample response which includes all the information retrieved for o
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py list-devices
 Retrieving the device list
-https://198.18.1.10:443/dataservice/device
+https://vmanage-ip:port/dataservice/device
 
 Device details retrieved for one network device
 {'bfdSessions': '8',
@@ -472,7 +530,7 @@ Options:
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py control-status --system_ip 10.3.0.1
 Retrieving the Control Status
-https://198.18.1.10:443/dataservice/device/control/synced/connections?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/control/synced/connections?deviceId=10.3.0.1
 
 Control Connection status for Device =  10.3.0.1
 ╒═════════════╤══════════════════╤═════════╤═════════════════════╕
@@ -493,7 +551,7 @@ Control Connection status for Device =  10.3.0.1
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py control-status --system_ip 10.2.0.1
 Retrieving the Control Status
-https://198.18.1.10:443/dataservice/device/control/synced/connections?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/control/synced/connections?deviceId=10.2.0.1
 
 Control Connection status for Device =  10.2.0.1
 ╒═════════════╤══════════════════╤═════════╤═════════════════════╕
@@ -528,7 +586,7 @@ In `interface-status` option, we use resource URI `device/interface/synced?devic
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.3.0.1
 Retrieving the interface Status
-https://198.18.1.10:443/dataservice/device/interface/synced?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/interface/synced?deviceId=10.3.0.1
 
 Interfaces status for Device =  10.3.0.1
 ╒═══════════════════╤══════════════════════╕
@@ -574,7 +632,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.2.0.1
 Retrieving the interface Status
-https://198.18.1.10:443/dataservice/device/interface/synced?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/interface/synced?deviceId=10.2.0.1
 
 Interfaces status for Device =  10.2.0.1
 ╒══════════════════╤══════════════════════╕
@@ -619,7 +677,7 @@ In `device-counters` option, we use resource URI `device/counters?deviceId=<syst
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1
 Retrieving the Device Counters
-https://198.18.1.10:443/dataservice/device/counters?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/counters?deviceId=10.3.0.1
 
 Device Counters for Device =  10.3.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
@@ -633,7 +691,7 @@ Device Counters for Device =  10.3.0.1
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py device-counters --system_ip 10.2.0.1
 Retrieving the Device Counters
-https://198.18.1.10:443/dataservice/device/counters?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/counters?deviceId=10.2.0.1
 
 Device Counters for Device =  10.2.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
@@ -661,7 +719,7 @@ In `system-status` option, we use resource URI `device/system/status?deviceId=<s
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py system-status --system_ip 10.3.0.1
 Retrieving the System Status
-https://198.18.1.10:443/dataservice/device/system/status?deviceId=10.3.0.1
+https://vmanage-ip:port/dataservice/device/system/status?deviceId=10.3.0.1
 
 System status for Device =  10.3.0.1
 ╒═════════════╤═════════════════════════════╤═══════════╤═══════════════╤══════════════╕
@@ -676,7 +734,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py system-status --system_ip 10.2.0.1
 Retrieving the System Status
-https://198.18.1.10:443/dataservice/device/system/status?deviceId=10.2.0.1
+https://vmanage-ip:port/dataservice/device/system/status?deviceId=10.2.0.1
 
 System status for Device =  10.2.0.1
 ╒═════════════╤═════════════════════════════╤═══════════╤═══════════════╤══════════════╕
@@ -727,7 +785,7 @@ cedge and vedge template lists
 
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py template-list
 Retrieving the templates available.
-https://198.18.1.10:443/dataservice/template/device
+https://vmanage-ip:port/dataservice/template/device
 ╒═════════════════════════════╤═════════════════╤══════════════════════════════════════╤════════════════════╤════════════════════╕
 │ Template Name               │ Device Type     │ Template ID                          │   Attached devices │   Template version │
 ╞═════════════════════════════╪═════════════════╪══════════════════════════════════════╪════════════════════╪════════════════════╡
@@ -1277,7 +1335,7 @@ Select Save and Test option and check if Data source is working.
 
 Now let's create Dashboard by selecting New dashboard option
 
-![Dashboard](images/dashboard_1.png)
+![Dashboard](images/grafana_new_1.png)
 
 **Step-6:**
 
@@ -1285,7 +1343,7 @@ Select **Add Query** and define Query to retrieve the values from database.
  
 ![Dashboard](images/grafana_new_2.png)
 
-We have to query `firewall_inspect_count` values from Influx DB using below values 
+We have to query `firewall_inspect_count` database from Influx DB using below values 
 
 **FROM** : default,firewall_inspect_count<br>
 **GROUP BY** : time($_interval),fill(linear)<br>
@@ -2006,13 +2064,13 @@ Once alarm is received on vmanage, vmanage pushes the notification to webhook se
 
 ```
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-admin-state-change', 'type': 'interface-admin-state-change', 'rulename': 'interface-admin-state-change', 'component': 'VPN', 'entry_time': 1553775129000, 'statcycletime': 1553775129000, 'message': 'The interface admin-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '6ac8ad69-b821-47ba-90f7-49cfcf86cf43', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'down', 'vpn-id': '512'}], 'rule_name_display': 'Interface_Admin_State_Change', 'receive_time': 1553775129959, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'down'}], 'acknowledged': False, 'active': True}
-198.18.1.10 - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1553775129000, 'statcycletime': 1553775129000, 'message': 'The interface oper-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '952a966a-5968-4a81-ab3c-0c817bfb39b9', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'down', 'vpn-id': '512'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1553775130145, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'down'}], 'acknowledged': False, 'active': True}
-198.18.1.10 - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:07] "POST / HTTP/1.1" 200 -
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1553775133000, 'statcycletime': 1553775133000, 'message': 'The interface oper-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '66ec20f7-7a87-4280-b4b4-d23dcc9d83ca', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'up', 'vpn-id': '512'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1553775133686, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-state': 'up'}], 'acknowledged': False, 'cleared_events': ['952a966a-5968-4a81-ab3c-0c817bfb39b9'], 'active': False}
-198.18.1.10 - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
 {'devices': [{'system-ip': '21.21.21.21'}], 'eventname': 'interface-admin-state-change', 'type': 'interface-admin-state-change', 'rulename': 'interface-admin-state-change', 'component': 'VPN', 'entry_time': 1553775133000, 'statcycletime': 1553775133000, 'message': 'The interface admin-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '32b55c04-ee36-4dfe-bc2c-8e7494c1ae9a', 'values': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'up', 'vpn-id': '512'}], 'rule_name_display': 'Interface_Admin_State_Change', 'receive_time': 1553775133713, 'values_short_display': [{'host-name': 'vBond-2', 'system-ip': '21.21.21.21', 'if-name': 'eth0', 'new-admin-state': 'up'}], 'acknowledged': False, 'cleared_events': ['6ac8ad69-b821-47ba-90f7-49cfcf86cf43'], 'active': False}
-198.18.1.10 - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
+vmanage-ip - - [28/Mar/2019 08:12:11] "POST / HTTP/1.1" 200 -
 ```
 
 ## Alarms on vManage
