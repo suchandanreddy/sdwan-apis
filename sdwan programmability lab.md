@@ -1277,7 +1277,7 @@ Select Save and Test option and check if Data source is working.
 
 Now let's create Dashboard by selecting New dashboard option
 
-![Dashboard](images/dashboard_1.png)
+![Dashboard](images/grafana_new_1.png)
 
 **Step-6:**
 
