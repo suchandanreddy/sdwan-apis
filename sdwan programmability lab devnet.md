@@ -152,72 +152,18 @@ Click ignore/continue if prompted with an invalid certificate warning:
 
 This will place you onto “WKST1,” which is the launching point for all lab tasks.
 
-**Step-3**
-
-Once you are on windows machine, launch the Google Chrome browser. 
-
-Open the box link `https://cisco.box.com/s/vd2h987bgnnlii7ib8bsg03uzqxup2x8` in google chrome browser and click on download. 
-
-![download](images/download.png) 
-
-Go to Downloads directory on file explorer and right click on the zip and select `extract all` as seen below 
-
-![extract-1](images/extract-1.png)
-
-Provide `C:\Users\Administrator\Desktop` as path and select Extract option. 
-
-![extract-2](images/extract-2.png) 
-
-Now please go to `sdwan_prog_lab` directory on Desktop and follow below installation instructions. 
-
-# Installation Instructions:
-
-## Python Installation
-
-**Step-1**
-
-Click on **python-3.7.3-amd64.exe** file and please enable **Add Python 3.7 to PATH** option and click on Install Now
-
-![python_1](images/python_installation_1.png)
-
-**Step-2**
-
-Once python installation is complete, please open windows command prompt and run `cd C:\Users\Administrator\Desktop\sdwan_prog_lab`
+On this workstation, we have python scripts in directory `sdwan_prog_lab` on Desktop
 
 **Step-3**
 
-Now install the python requirements by using the command `pip3 install -r requirements.txt`
-
-**Step-4**
-
-Run below commands using the vmanage ip address, port, login credentials from dcloud session details
-
-These commands should be run in command prompt to set the environment variables which stores vmanage details. 
+Run below commands in windows command prompt to set the environment variables which stores vmanage details. 
 
 ```
-set vmanage_host=<vmanage-ip>
-set vmanage_port=<vmanage-port>
-set username=<username>
-set password=<password>
-```
-
-## Influx DB Installation
-
-**Step-1**
-
-Go to directory `sdwan_prog_lab\influxdb-1.7.4-1` and **click on** the <b>influxd.exe</b> file to run.
-
-Minimize the command window pop-up and let influxd run in background. 
-
-## Grafana Installation
-
-**Step-1**
-
-Go to directory `sdwan_prog_lab\grafana-6.0.2\bin` and **click on** the <b>grafana-server.exe</b> file to run.
-
-Minimize the command window pop-up and let grafana server run in background. 
-
-
+set vmanage_host=198.18.1.10
+set vmanage_port=443
+set username=admin
+set password=admin
+``` 
 
 #	 Lab Flow/Use cases
 
@@ -1335,7 +1281,7 @@ Select Save and Test option and check if Data source is working.
 
 Now let's create Dashboard by selecting New dashboard option
 
-![Dashboard](images/grafana_new_1.png)
+![Dashboard](images/dashboard_1.png)
 
 **Step-6:**
 
