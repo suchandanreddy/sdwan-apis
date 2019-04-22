@@ -1343,7 +1343,7 @@ Select **Add Query** and define Query to retrieve the values from database.
  
 ![Dashboard](images/grafana_new_2.png)
 
-We have to query `firewall_inspect_count` database from Influx DB using below values 
+We have to query `firewall_inspect_count` values from Influx DB using below conditions.
 
 **FROM** : default,firewall_inspect_count<br>
 **GROUP BY** : time($_interval),fill(linear)<br>
