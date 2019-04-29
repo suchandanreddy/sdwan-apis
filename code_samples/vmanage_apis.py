@@ -26,7 +26,7 @@ if vmanage_host is None or vmanage_port is None or username is None or password 
     print("export vmanage_host=198.18.1.10")
     print("export vmanage_port=443")
     print("export username=admin")
-    print("export password=admin")   
+    print("export password=admin")
     exit()
 
 requests.packages.urllib3.disable_warnings()
