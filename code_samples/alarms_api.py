@@ -11,13 +11,17 @@ username = os.environ.get("username")
 password = os.environ.get("password")
 
 if vmanage_host is None or vmanage_port is None or username is None or password is None:
-    print("vManage details must be set via environment variables. For example: ")
+    print("For Windows Workstation, vManage details must be set via environment variables using below commands")
     print("set vmanage_host=198.18.1.10")
     print("set vmanage_port=443")
     print("set username=admin")
     print("set password=admin")
+    print("For MAC OSX Workstation, vManage details must be set via environment variables using below commands")
+    print("export vmanage_host=198.18.1.10")
+    print("export vmanage_port=443")
+    print("export username=admin")
+    print("export password=admin")
     exit()
-
 
 requests.packages.urllib3.disable_warnings()
 
