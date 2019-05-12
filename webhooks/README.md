@@ -286,4 +286,4 @@ Sample JSON output on webhook server on receiving notifications from the vManage
 
 Online webhooks can be set up using https://webhook.site
 
-sdwan docs : https://sdwan-docs.cisco.com/Product_Documentation/vManage_How-Tos/Operation/Configure_Email_Notifications_for_Alarms
+SD-WAN Docs : https://sdwan-docs.cisco.com/Product_Documentation/vManage_How-Tos/Operation/Configure_Email_Notifications_for_Alarms
