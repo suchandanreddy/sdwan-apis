@@ -150,11 +150,90 @@ $python3 webhook.py &
 
 Sample JSON output on webhook server on receiving notifications from the vManage.
 
-```
-{'devices': [{'system-ip': '1.1.1.6'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1557638802000, 'statcycletime': 1557638802000, 'message': 'The interface oper-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '8459e3a0-5bea-4370-ab57-6f45f8022d66', 'values': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'down', 'vpn-id': '10'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1557638802875, 'values_short_display': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'down'}], 'acknowledged': False, 'active': True}
+<pre>
 
-{'devices': [{'system-ip': '1.1.1.6'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1557638912000, 'statcycletime': 1557638912000, 'message': 'The interface oper-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '7a514a95-7c24-4348-b7e9-8d6775a3bc36', 'values': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'up', 'vpn-id': '10'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1557638912888, 'values_short_display': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'up'}], 'acknowledged': False, 'cleared_events': ['8459e3a0-5bea-4370-ab57-6f45f8022d66'], 'active': False}
-```
+{
+  "entry_time": 1557638802000,
+  "severity": "Critical",
+  "rule_name_display": "Interface_State_Change",
+  "severity_number": 1,
+  "component": "VPN",
+  "values_short_display": [
+    {
+      "if-name": "GigabitEthernet4",
+      "host-name": "BR2-CSR1000v",
+      "system-ip": "1.1.1.6",
+      "new-state": "down"
+    }
+  ],
+  "devices": [
+    {
+      "system-ip": "1.1.1.6"
+    }
+  ],
+  "eventname": "interface-state-change",
+  "receive_time": 1557638802875,
+  "statcycletime": 1557638802000,
+  "values": [
+    {
+      "if-name": "GigabitEthernet4",
+      "vpn-id": "10",
+      "host-name": "BR2-CSR1000v",
+      "system-ip": "1.1.1.6",
+      "new-state": "down"
+    }
+  ],
+  "rulename": "interface-state-change",
+  "active": true,
+  "message": "The interface oper-state changed to down",
+  "type": "interface-state-change",
+  "acknowledged": false,
+  "uuid": "8459e3a0-5bea-4370-ab57-6f45f8022d66"
+}
+
+{
+  "entry_time": 1557638912000,
+  "severity": "Medium",
+  "rule_name_display": "Interface_State_Change",
+  "severity_number": 3,
+  "component": "VPN",
+  "values_short_display": [
+    {
+      "if-name": "GigabitEthernet4",
+      "host-name": "BR2-CSR1000v",
+      "system-ip": "1.1.1.6",
+      "new-state": "up"
+    }
+  ],
+  "devices": [
+    {
+      "system-ip": "1.1.1.6"
+    }
+  ],
+  "eventname": "interface-state-change",
+  "receive_time": 1557638912888,
+  "statcycletime": 1557638912000,
+  "values": [
+    {
+      "if-name": "GigabitEthernet4",
+      "vpn-id": "10",
+      "host-name": "BR2-CSR1000v",
+      "system-ip": "1.1.1.6",
+      "new-state": "up"
+    }
+  ],
+  "cleared_events": [
+    "8459e3a0-5bea-4370-ab57-6f45f8022d66"
+  ],
+  "rulename": "interface-state-change",
+  "active": false,
+  "message": "The interface oper-state changed to up",
+  "type": "interface-state-change",
+  "acknowledged": false,
+  "uuid": "7a514a95-7c24-4348-b7e9-8d6775a3bc36"
+}
+
+</pre>
 
 # Alarms on vManage
 
