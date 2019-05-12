@@ -1,4 +1,4 @@
-# Webhook 
+# Webhooks
 
 -   Webhooks enable push-model mechanism to send notifications in real-time.
 -   In order to retrieve alarms in real-time from the vManage using the REST API's, we need to poll for the data frequently. However by using webhooks, vManage can send HTTP POST request to the external systems in real-time once alarm is received. 
@@ -274,13 +274,19 @@ Sample JSON output on webhook server on receiving notifications from the vManage
 
 -	Above webhook logs corresponds to these alarms which were recieved by vManage.
 
+<br><br>
+
 ![alarms](images/alarms.png)
+
+<br><br>
 
 # Alert on Webex Teams Space
 
 - The script sends the message to provided Webex Teams Space/Room and here is the sample output. 
 
 ![Webex_teams](images/webex_teams_message.png)
+
+<br><br>
 
 # References
 
