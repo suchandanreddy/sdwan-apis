@@ -278,7 +278,7 @@ Sample JSON output on webhook server on receiving notifications from the vManage
 
 ![alarms](images/alarms.png)
 
-<br><br>
+<br>
 
 # Alert on Webex Teams Space
 
@@ -286,7 +286,7 @@ Sample JSON output on webhook server on receiving notifications from the vManage
 
 ![Webex_teams](images/webex_teams_message.png)
 
-<br><br>
+<br>
 
 # References
 
