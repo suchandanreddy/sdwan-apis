@@ -23,15 +23,15 @@ Note: provide the dummy email address as place holder for Email notifications an
 
 Below is an example screenshot, Here we are enabling webhook notifications for Critical and Medium alarms related to *"interface-admin-state-change"* and *"interface-state-change"*
 
-![webhook](webhook_create_4.png)
+![webhook](images/webhook_create_4.png)
 
 Notifications can be enabled for all devices or custom list of devices. 
 
-![webhook](webhook_create_3.png)
+![webhook](images/webhook_create_3.png)
 
 #	Notifications Dashboard 
 
-![webhook](webhook_create_2.png)
+![webhook](images/webhook_create_2.png)
 
 # Test Webhook
 
@@ -88,7 +88,7 @@ Now let’s try to set up webhook server on ubuntu to accept notifications sent 
 
 - In order to accept HTTP post requests sent from vManage, we need to enable http web server and design API route.
 - Below code spins up flask web server listening on port 5001 for HTTP POST request
-- Defined alarms() functions accepts the POST request at route http://<server-ip>:<port>/ and extracts the data from request.
+- Defined alarms() functions accepts the POST request at route http://server-ip:port/ and extracts the data from request.
 
 ```
 from flask import Flask, request
@@ -106,7 +106,7 @@ if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5001, debug=True)
 ```
 
-# Logs from Webhook Server:
+## Logs from Webhook Server:
 
 Spin up http webhook server as background process
 
@@ -142,7 +142,7 @@ Sample output on webhook server on receiving notifications from the vManage.
 
 -	Above webhook logs corresponds to these alarms which were recieved by vManage.
 
-![alarms](alarms.png)
+![alarms](images/alarms.png)
 
 # References
 
