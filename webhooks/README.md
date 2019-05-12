@@ -274,7 +274,7 @@ Sample JSON output on webhook server on receiving notifications from the vManage
 
 -	Above webhook logs corresponds to these alarms which were recieved by vManage.
 
-<br><br>
+<br>
 
 ![alarms](images/alarms.png)
 
