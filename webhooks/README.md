@@ -54,26 +54,57 @@ set room_id=<webex teams room-id>
 
 Steps to enable webhook notifications for pushing alarms to external systems.
 
--    Select "Email Notifications" from "Monitor -> Alarms" 
--    Enable webhook checkbox. 
--    Select severity level and Alarms for which webhook notifications should be triggered.
--    Provide the webhook server URL, username and password for webhook. ( Note : If webhook server doesn't have authentication configured, please provide dummy username and password )
--    Webhook URL can be http:// or https://
--    Enable Email notifications option in Administration settings of vManage 
+**Step-1:**
 
-Note: provide the dummy email address as place holder for Email notifications and then click Add.
+- Select "Email Notifications" from "Monitor -> Alarms"
 
-Below is an example screenshot, Here we are enabling webhook notifications for Critical and Medium alarms related to *"interface-admin-state-change"* and *"interface-state-change"*
+![webhook](images/webhook_step_1.png)
 
-![webhook](images/webhook_create_4.png)
+**Step-2:**
 
-Notifications can be enabled for all devices or custom list of devices. 
+- Enter name of the webhook as <b>webhook_test</b>
+- Select severity level for example, <b>Critical and Medium</b>
+- Select Alarm Name for example,  <b>Interface Admin State Change and Interface State Change</b>
 
-![webhook](images/webhook_create_3.png)
+![webhook](images/webhook_step_2.png)
+
+**Step-3:**
+
+- Click on <b>Add Email list</b> and provide dummy email-id **test@test.com** , If you are using only webhooks.
+
+![webhook](images/webhook_step_3.png)
+
+**Step-4:**
+
+- Enable webhook checkbox.
+- Provide the webhook server URL, username and password for webhook. 
+
+(**Note:** If webhook server doesn't have authentication configured, please provide dummy username and password)
+
+- Provide the Webhook Server URL
+- Select **All Devices** or **Custom** option and click on **Add** to complete the webhook settings.
+
+![webhook](images/webhook_step_4.png)
+
+**Step-5:**
+
+- Enable email notifications in Administration settings of vManage.
+
+(**Note:** Email notifications should be enabled in order to use Webhooks.)
+
+- For using only Webhooks, please provide dummy values so, Select Security option **None** and enter SMTP Server as **test.mail.com**
+
+- Enter dummy values for **From address** and **Reply to address** as **test@test.com**
+
+![webhook](images/webhook_step_5.png)
+
+This completes the configuration on vManage to enable webhooks  
 
 #	Notifications Dashboard 
 
-![webhook](images/webhook_create_2.png)
+List of webhooks or email notifications configured can be seen in section **Alarms > Email Notifications**
+
+![webhook](images/webhook_step_6.png)
 
 # Test Webhook
 
