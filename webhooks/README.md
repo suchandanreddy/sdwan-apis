@@ -152,6 +152,8 @@ Sample JSON output on webhook server on receiving notifications from the vManage
 
 <pre>
 
+<b>Interface Down Alarm:</b>
+
 {
   "entry_time": 1557638802000,
   "severity": "Critical",
@@ -190,6 +192,8 @@ Sample JSON output on webhook server on receiving notifications from the vManage
   "acknowledged": false,
   "uuid": "8459e3a0-5bea-4370-ab57-6f45f8022d66"
 }
+
+<b>Interface Up Alarm:</b>
 
 {
   "entry_time": 1557638912000,
