@@ -8,7 +8,49 @@
 
 -  This feature is supported from vManage 18.3 release onwards
 
-# Configure
+# Requirements
+
+To use this application you will need:
+
+* Python 3.7+
+* Cisco SD-WAN 18.3+
+
+# Install and Setup
+
+Clone the code to local machine.
+
+```
+git clone https://github.com/suchandanreddy/sdwan-apis.git
+cd sdwan-apis/webhooks
+```
+
+Setup Python Virtual Environment (requires Python 3.7+)
+
+```
+python3.7 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+Setup local environment variables to provide Webex Teams Authorization and Room ID details.
+
+Examples:
+
+For MAC OSX and Ubuntu Environment:
+
+```
+export bearer_token=<authorization bearer token>
+export room_id=<webex teams room-id>
+```
+
+For Windows Environment:
+
+```
+set bearer_token=<authorization bearer token>
+set room_id=<webex teams room-id>
+```
+
+# vManage Configuration
 
 Steps to enable webhook notifications for pushing alarms to external systems.
 
@@ -37,49 +79,29 @@ Notifications can be enabled for all devices or custom list of devices.
 
 From vManage shell, run curl command and send dummy HTTP POST request to webhook server to make sure it is reachable.
 
-Sample output (using webhook.site as server)
+**Sample output**
 
 ```
-vmanage:~$ curl -v -X POST -H 'Content-type: application/json' https://webhook.site/cb208ecc-4520-4bcd-b4b3-28f58d7b129d
-*   Trying 188.226.137.35...
+vmanage# vshell
+vmanage:~$ curl -v -X POST -H 'Content-type: application/json' http://<webhook-server-ip>:5001/
+*   Trying <webhook-server-ip>...
 * TCP_NODELAY set
-* Connected to webhook.site (188.226.137.35) port 443 (#0)
-* found 157 certificates in /etc/ssl/certs/ca-certificates.crt
-* ALPN, offering http/1.1
-* SSL connection using TLS1.2 / ECDHE_RSA_AES_256_GCM_SHA384
-* 	 server certificate verification OK
-* 	 server certificate status verification SKIPPED
-* 	 common name: webhook.site (matched)
-* 	 server certificate expiration date OK
-* 	 server certificate activation date OK
-* 	 certificate public key: RSA
-* 	 certificate version: #3
-* 	 subject: CN=webhook.site
-* 	 start date: Mon, 17 Dec 2018 11:32:42 GMT
-* 	 expire date: Sun, 17 Mar 2019 11:32:42 GMT
-* 	 issuer: C=US,O=Let's Encrypt,CN=Let's Encrypt Authority X3
-* 	 compression: NULL
-* ALPN, server did not agree to a protocol
-> POST /cb208ecc-4520-4bcd-b4b3-28f58d7b129d HTTP/1.1
-> Host: webhook.site
+* Connected to <webhook-server-ip> (<webhook-server-ip>) port 5001 (#0)
+> POST / HTTP/1.1
+> Host: <webhook-server-ip>:5001
 > User-Agent: curl/7.58.0
 > Accept: */*
 > Content-type: application/json
 >
-< HTTP/1.1 200 OK
-< Server: nginx/1.10.3
-< Content-Type: text/plain; charset=UTF-8
-< Transfer-Encoding: chunked
-< Vary: Accept-Encoding
-< X-Request-Id: fbcad435-4164-440b-a4de-0d82efa2fb41
-< X-Token-Id: cb208ecc-4520-4bcd-b4b3-28f58d7b129d
-< Cache-Control: no-cache, private
-< Date: Sat, 16 Mar 2019 12:33:05 GMT
-< X-RateLimit-Limit: 30
-< X-RateLimit-Remaining: 29
+* HTTP 1.0, assume close after body
+< HTTP/1.0 500 INTERNAL SERVER ERROR
+< Content-Type: application/json
+< Content-Length: 44
+< Server: Werkzeug/0.15.2 Python/3.7.3
+< Date: Sun, 12 May 2019 13:22:25 GMT
 <
-* Connection #0 to host webhook.site left intact
-vmanage:~$
+"Expecting value: line 1 column 1 (char 0)"
+* Closing connection 0
 ```
 
 # Set up Webhook server on ubuntu
@@ -88,22 +110,23 @@ Now let’s try to set up webhook server on ubuntu to accept notifications sent 
 
 - In order to accept HTTP post requests sent from vManage, we need to enable http web server and design API route.
 - Below code spins up flask web server listening on port 5001 for HTTP POST request
-- Defined alarms() functions accepts the POST request at route http://server-ip:port/ and extracts the data from request.
+- Defined alarms() function that accepts the POST request at route http://server-ip:port/ and extracts the data from request, then it sends message
+to Webex Teams Room. 
 
 ```
-from flask import Flask, request
-import json
-
-app = Flask(__name__)
-
 @app.route('/',methods=['POST'])
 def alarms():
-   data = json.loads(request.data)
-   print(data)
-   return "OK"
-
-if __name__ == '__main__':
-   app.run(host='0.0.0.0', port=5001, debug=True)
+   try:
+      data = json.loads(request.data)
+      print(data)
+      message =  '''Team, alarm event : **''' + data['eventname'] + '** ------ **' + data['message'] + '''** is recieved from vManage and here are the complete details <br><br>'''  + str(data)
+      api = CiscoSparkAPI(access_token=bearer_token)
+      res=api.messages.create(roomId=room_id, markdown=message)
+      print(res)
+   except Exception as exc:
+      return jsonify(str(exc)), 500 
+   
+   return jsonify("Message sent to Webex Teams"), 200
 ```
 
 ## Logs from Webhook Server:
@@ -125,17 +148,12 @@ $python3 webhook.py &
  * Debugger PIN: 216-076-679
 ```
 
-Sample output on webhook server on receiving notifications from the vManage.
+Sample JSON output on webhook server on receiving notifications from the vManage.
 
 ```
- {'devices': [{'system-ip': '1.1.1.2'}], 'eventname': 'interface-admin-state-change', 'type': 'interface-admin-state-change', 'rulename': 'interface-admin-state-change', 'component': 'VPN', 'entry_time': 1552699205000, 'statcycletime': 1552699205000, 'message': 'The interface admin-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '735d1df8-acba-47d6-94c1-a76fe6f7b12e', 'values': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-admin-state': 'down', 'vpn-id': '0'}], 'rule_name_display': 'Interface_Admin_State_Change', 'receive_time': 1552699205615, 'values_short_display': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-admin-state': 'down'}], 'acknowledged': False, 'active': True}
-<vmanage-ip> - - [16/Mar/2019 01:22:14] "POST / HTTP/1.1" 200 -
-{'devices': [{'system-ip': '1.1.1.2'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1552699205000, 'statcycletime': 1552699205000, 'message': 'The interface oper-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': 'caffbef4-3ab2-49bc-b9e9-1d8e79753d2b', 'values': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-state': 'down', 'vpn-id': '0'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1552699205815, 'values_short_display': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-state': 'down'}], 'acknowledged': False, 'active': True}
-<vmanage-ip> - - [16/Mar/2019 01:22:14] "POST / HTTP/1.1" 200 -
-{'devices': [{'system-ip': '1.1.1.2'}], 'eventname': 'interface-admin-state-change', 'type': 'interface-admin-state-change', 'rulename': 'interface-admin-state-change', 'component': 'VPN', 'entry_time': 1552699209000, 'statcycletime': 1552699209000, 'message': 'The interface admin-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': 'b1785534-8132-4039-8472-d64e04d4e558', 'values': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-admin-state': 'up', 'vpn-id': '0'}], 'rule_name_display': 'Interface_Admin_State_Change', 'receive_time': 1552699209618, 'values_short_display': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-admin-state': 'up'}], 'acknowledged': False, 'cleared_events': ['735d1df8-acba-47d6-94c1-a76fe6f7b12e'], 'active': False}
-<vmanage-ip> - - [16/Mar/2019 01:22:18] "POST / HTTP/1.1" 200 -
-{'devices': [{'system-ip': '1.1.1.2'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1552699209000, 'statcycletime': 1552699209000, 'message': 'The interface oper-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '2ca8864f-8a94-4620-9b7a-716fa506e860', 'values': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-state': 'up', 'vpn-id': '0'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1552699209818, 'values_short_display': [{'host-name': 'vmanage', 'system-ip': '1.1.1.2', 'if-name': 'eth0', 'new-state': 'up'}], 'acknowledged': False, 'cleared_events': ['caffbef4-3ab2-49bc-b9e9-1d8e79753d2b'], 'active': False}
-<vmanage-ip> - - [16/Mar/2019 01:22:18] "POST / HTTP/1.1" 200 -
+ {'devices': [{'system-ip': '1.1.1.6'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1557638802000, 'statcycletime': 1557638802000, 'message': 'The interface oper-state changed to down', 'severity': 'Critical', 'severity_number': 1, 'uuid': '8459e3a0-5bea-4370-ab57-6f45f8022d66', 'values': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'down', 'vpn-id': '10'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1557638802875, 'values_short_display': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'down'}], 'acknowledged': False, 'active': True}
+
+{'devices': [{'system-ip': '1.1.1.6'}], 'eventname': 'interface-state-change', 'type': 'interface-state-change', 'rulename': 'interface-state-change', 'component': 'VPN', 'entry_time': 1557638912000, 'statcycletime': 1557638912000, 'message': 'The interface oper-state changed to up', 'severity': 'Medium', 'severity_number': 3, 'uuid': '7a514a95-7c24-4348-b7e9-8d6775a3bc36', 'values': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'up', 'vpn-id': '10'}], 'rule_name_display': 'Interface_State_Change', 'receive_time': 1557638912888, 'values_short_display': [{'host-name': 'BR2-CSR1000v', 'system-ip': '1.1.1.6', 'if-name': 'GigabitEthernet4', 'new-state': 'up'}], 'acknowledged': False, 'cleared_events': ['8459e3a0-5bea-4370-ab57-6f45f8022d66'], 'active': False}
 ```
 
 # Alarms on vManage
@@ -144,8 +162,14 @@ Sample output on webhook server on receiving notifications from the vManage.
 
 ![alarms](images/alarms.png)
 
+# Alert on Webex Teams Space
+
+- The script sends the message to provided Webex Teams Space/Room and here is the sample output. 
+
+![Webex_teams](webex_teams_message.png)
+
 # References
 
-online webhooks can be set up using https://webhook.site
+Online webhooks can be set up using https://webhook.site
 
 sdwan docs : https://sdwan-docs.cisco.com/Product_Documentation/vManage_How-Tos/Operation/Configure_Email_Notifications_for_Alarms
