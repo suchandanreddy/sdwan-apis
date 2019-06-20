@@ -344,6 +344,33 @@ def create_feature_template(input_yaml):
     else:
         print("\nFailed creating banner template, error: ",response.text)
 
+
+@click.command()
+def factory_templates_list():
+    """Retrieve and return factory default feature templates list.
+        Returns the templates available on the vManage instance.
+        Example command:
+            ./sdwan.py template_list
+    """
+    click.secho("Retrieving the templates available.")
+
+    response = vmanage_session.get_request('template/feature').json()
+
+    items = response['data']
+
+    headers = ["Template Name", "Template Type", "Template ID"]
+    table = list()
+
+    for item in items:
+        if item['factoryDefault']:
+            tr = [item['templateName'], item['templateType'], item['templateId']]
+            table.append(tr)
+    try:
+        click.echo(tabulate.tabulate(table, headers, tablefmt="fancy_grid"))
+    except UnicodeEncodeError:
+        click.echo(tabulate.tabulate(table, headers, tablefmt="grid"))
+
+
 cli.add_command(list_devices)
 cli.add_command(template_list)
 cli.add_command(system_status)
@@ -351,6 +378,7 @@ cli.add_command(interface_status)
 cli.add_command(control_status)
 cli.add_command(device_counters)
 cli.add_command(create_feature_template)
+cli.add_command(factory_templates_list)
 
 if __name__ == "__main__":
     cli()
