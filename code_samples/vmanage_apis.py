@@ -69,7 +69,7 @@ class rest_api_lib:
     def get_request(self, mount_point):
         """GET request"""
         url = "https://%s:%s/dataservice/%s"%(self.vmanage_host, self.vmanage_port, mount_point)
-        print(url)
+        #print(url)
       
         response = self.session[self.vmanage_host].get(url, verify=False)
         
