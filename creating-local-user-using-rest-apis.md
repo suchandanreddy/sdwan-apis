@@ -596,6 +596,7 @@ After editing the AAA feature template, we need to initiate the template push pr
 
 **Sample Payload**
 
+```
 {
   "deviceTemplateList": [
     {
@@ -627,6 +628,7 @@ After editing the AAA feature template, we need to initiate the template push pr
     }
   ]
 }
+```
 
 **Sample Response**
 
