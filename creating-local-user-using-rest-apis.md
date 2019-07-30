@@ -38,7 +38,7 @@ vmanage# show running-config system aaa
 
 # Delete vManage local user
 
-**Resource URL:** https://<vmanage-ip>/dataservice/admin/user/<username to be deleted>
+**Resource URL:** `https://<vmanage-ip>/dataservice/admin/user/<username to be deleted>`
 
 **Method:** DELETE
 
@@ -47,13 +47,13 @@ vmanage# show running-config system aaa
 
 GET list of templates and its UUID value. 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/feature
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/feature`
 
 **Method:** GET
 
 Add new local user in AAA Template: 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/feature/<template-uuid>
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/feature/<template-uuid>`
 
 **Method:** PUT
 
@@ -502,7 +502,7 @@ Add new local user in AAA Template:
 
 After editing the AAA feature template, we need to initiate the template push process by sending below POST Request. 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/device/config/input/
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/device/config/input/`
 
 **Method:** POST
 
@@ -542,7 +542,7 @@ After editing the AAA feature template, we need to initiate the template push pr
 
 # Fetching list of device templates
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/device
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/device`
 
 **Method:** GET
 
@@ -566,7 +566,7 @@ After editing the AAA feature template, we need to initiate the template push pr
 
 # Fetching Devices attached 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/device/config/attached/<template-id>
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/device/config/attached/<template-id>`
 
 **Method:** GET
 
@@ -590,7 +590,7 @@ After editing the AAA feature template, we need to initiate the template push pr
 
 # Attach Template to Device
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/device/config/attachfeature
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/device/config/attachfeature`
 
 **Method:** POST
 
@@ -636,7 +636,7 @@ After editing the AAA feature template, we need to initiate the template push pr
 
 # Monitor Template Push Operation
 
-**Resource URL** https://<vmanage-ip>/dataservice/device/action/status/push_feature_template_configuration-d8a5bbec-7514-4956-ae58-a5debcfc8140 (push id is response to above POST request)
+**Resource URL** `https://<vmanage-ip>/dataservice/device/action/status/push_feature_template_configuration-d8a5bbec-7514-4956-ae58-a5debcfc8140` (push id is response to above POST request)
 
 **Method:** GET
 
