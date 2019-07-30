@@ -29,12 +29,14 @@ Table of Contents
 
 **Output on vManage Device CLI after configuration:**
 
+```
 vmanage# show running-config system aaa
 <snip>
   user vmanageadmin
    password    <Hashed-Value>
    description vManage-admin
    group       netadmin
+```
 
 # Change/Reset Password
 
