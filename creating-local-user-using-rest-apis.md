@@ -13,7 +13,7 @@ Table of Contents
 
 # Create vManage local user
 
-**Resource URL:** https://<vmanage-ip>/dataservice/admin/user
+**Resource URL:** `https://<vmanage-ip>/dataservice/admin/user`
 
 **Method:** POST
 
