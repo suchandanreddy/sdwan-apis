@@ -2,6 +2,7 @@ Table of Contents
 =================
 
    * [Create vManage local user](#create-vmanage-local-user)
+   * [Change/Reset Password](#changereset-password)
    * [Delete vManage local user](#delete-vmanage-local-user)
    * [Edit vEdge password via Template](#edit-vedge-password-via-template)
    * [Push Template Change](#push-template-change)
@@ -35,6 +36,18 @@ vmanage# show running-config system aaa
    description vManage-admin
    group       netadmin
 
+# Change/Reset Password
+
+**Resource URL:** `https://<vmanage-ip>/dataservice/admin/user/password/<username for which password needs to be changed>`
+
+**Method:** PUT 
+
+**Sample payload:**
+
+```json
+    {"userName":"test_api",
+    "password" :"test_api_new"}
+```
 
 # Delete vManage local user
 
