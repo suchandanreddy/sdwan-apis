@@ -95,7 +95,7 @@ vmanage_session = rest_api_lib(vmanage_host, vmanage_port, username, password)
 
 @click.group()
 def cli():
-    """Command line tool for deploying templates to CISCO SDWAN.
+    """Command line tool for Monitoring and Configuring CISCO SD-WAN fabric.
     """
     pass
 
