@@ -1,6 +1,6 @@
 This article covers the API responses formats for various features in SD-WAN Security. 
 
-In order to fetch the above events from the vManage using the REST APIs, we need to send POST request to resource URL : https://<vmanage-ip>/dataservice/event , with below query format which filters for IPS alerts for last 24 hours using the value "utd-ips-alert"
+In order to fetch the above events from the vManage using the REST APIs, we need to send POST request to resource URL : `https://<vmanage-ip>/dataservice/event` , with below query format which filters for IPS alerts for last 24 hours using the value "utd-ips-alert"
 
  
 ```
