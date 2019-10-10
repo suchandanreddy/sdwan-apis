@@ -11,4 +11,4 @@ MarkupSafe==1.1.1
 requests==2.21.0
 requests-toolbelt==0.9.1
 urllib3==1.24.3
-Werkzeug==0.15.2
+Werkzeug==0.15.3
