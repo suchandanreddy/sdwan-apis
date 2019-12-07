@@ -146,52 +146,44 @@ Interface statistics query to retrieve sum of octets for each interface in a giv
 ```
     "data": [
         {
-            "interface": "loopback1",
-            "count": 72,
-            "vdevice_name": "1.1.1.10",
-            "vpn_id": "1",
-            "rx_octets": 0,
-            "tx_octets": 0
-        },
-        {
-            "interface": "loopback1",
+            "interface": "ge0/2",
             "count": 72,
             "vdevice_name": "1.1.2.211",
             "vpn_id": "1",
-            "rx_octets": 0,
-            "tx_octets": 0
+            "rx_octets": 261953,
+            "tx_octets": 156828
         },
         {
-            "interface": "loopback1",
-            "count": 72,
-            "vdevice_name": "1.1.2.4",
-            "vpn_id": "1",
-            "rx_octets": 0,
-            "tx_octets": 0
-        },
-        {
-            "interface": "loopback1",
+            "interface": "ge0/2",
             "count": 72,
             "vdevice_name": "1.1.2.5",
             "vpn_id": "1",
-            "rx_octets": 0,
+            "rx_octets": 241920,
             "tx_octets": 0
         },
         {
-            "interface": "loopback1",
-            "count": 72,
-            "vdevice_name": "31.31.31.2",
-            "vpn_id": "1",
-            "rx_octets": 0,
-            "tx_octets": 0
-        },
-        {
-            "interface": "loopback1",
+            "interface": "ge0/2",
             "count": 71,
-            "vdevice_name": "1.1.1.11",
+            "vdevice_name": "1.1.2.210",
             "vpn_id": "1",
-            "rx_octets": 0,
-            "tx_octets": 0
+            "rx_octets": 257941,
+            "tx_octets": 154526
+        },
+        {
+            "interface": "ge0/2",
+            "count": 70,
+            "vdevice_name": "1.1.2.1",
+            "vpn_id": "1",
+            "rx_octets": 32509568,
+            "tx_octets": 260399334
+        },
+        {
+            "interface": "ge0/2",
+            "count": 70,
+            "vdevice_name": "1.1.2.200",
+            "vpn_id": "1",
+            "rx_octets": 266279454,
+            "tx_octets": 20932398
         },
 <snip>
 ```
