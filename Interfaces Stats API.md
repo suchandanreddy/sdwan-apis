@@ -1,6 +1,6 @@
 # Example 1
 
-Interface statistics query to retrieve sum of octets for each interface in a given Service VPN of device with system-ip "1.1.2.1"
+Interface statistics query to retrieve sum of octets for each interface in a given Service VPN of device with system-ip "1.1.2.1" for last 12 hours.
 
 ## API URL:
 
@@ -12,32 +12,32 @@ POST
 
 ## Query:
 
-```
+<pre>
 {
   "query": {
     "condition": "AND",
     "rules": [
       {
         "value": [
-          "12"
+          <b>"12"</b>
         ],
         "field": "entry_time",
         "type": "date",
-        "operator": "last_n_hours"
+        <b>"operator": "last_n_hours"</b>
       },
       {
         "value": [
-          "1.1.2.1"
+          <b>"1.1.2.1"</b>
         ],
-        "field": "vdevice_name",
+        <b>"field": "vdevice_name",</b>
         "type": "string",
         "operator": "in"
       },
       {
         "value": [
-          "1"
+          <b>"1"</b>
         ],
-        "field": "vpn_id",
+        <b>"field": "vpn_id",</b>
         "type": "number",
         "operator": "in"
       }
@@ -52,17 +52,17 @@ POST
     ],
     "metrics": [
       {
-        "property": "rx_octets",
-        "type": "sum"
+        <b>"property": "rx_octets",
+        "type": "sum"</b>
       },
       {
-        "property": "tx_octets",
-        "type": "sum"
+        <b>"property": "tx_octets",
+        "type": "sum"</b>
       }
     ]
   }
 }
-```
+</pre>
 
 ## Sample Response:
 
@@ -85,28 +85,28 @@ POST
 
 # Example 2
 
-Interface statistics query to retrieve sum of octets for each interface in a given Service VPN across all devices in the fabric.
+Interface statistics query to retrieve sum of octets for each interface in a given Service VPN across all devices in the fabric for last 12 hours
 
 ## Query:
 
-```
+<pre>
 {
   "query": {
     "condition": "AND",
     "rules": [
       {
         "value": [
-          "12"
+          <b>"12"</b>
         ],
         "field": "entry_time",
         "type": "date",
-        "operator": "last_n_hours"
+        <b>"operator": "last_n_hours"</b>
       },
       {
         "value": [
-          "1"
+          <b>"1"</b>
         ],
-        "field": "vpn_id",
+        <b>"field": "vpn_id",</b>
         "type": "number",
         "operator": "in"
       }
@@ -129,17 +129,17 @@ Interface statistics query to retrieve sum of octets for each interface in a giv
     ],
     "metrics": [
       {
-        "property": "rx_octets",
-        "type": "sum"
+        <b>"property": "rx_octets",
+        "type": "sum"</b>
       },
       {
-        "property": "tx_octets",
-        "type": "sum"
+        <b>"property": "tx_octets",
+        "type": "sum"</b>
       }
     ]
   }
 }
-```
+</pre>
 
 ## Sample Response
 
