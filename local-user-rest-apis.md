@@ -1,6 +1,6 @@
 **Create vManage local user**
 
-**Resource URL:** https://<vmanage-ip>/dataservice/admin/user
+**Resource URL:** `https://<vmanage-ip>/dataservice/admin/user`
 
 **Method:** POST
 
@@ -15,17 +15,19 @@
 
 **Output on vManage Device CLI after configuration:**
 
+```
 vmanage# show running-config system aaa
 <snip>
   user vmanageadmin
    password    <Hashed-Value>
    description vManage-admin
    group       netadmin
+```
 
 
 **Delete vManage local user:** 
 
-https://<vmanage-ip>/dataservice/admin/user/<username to be deleted>
+`https://<vmanage-ip>/dataservice/admin/user/<username to be deleted>`
 
 **Method:** DELETE
 
@@ -34,13 +36,13 @@ https://<vmanage-ip>/dataservice/admin/user/<username to be deleted>
 
 GET list of templates and its UUID value. 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/feature
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/feature`
 
 **Method:** GET
 
 Add new local user in AAA Template: 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/feature/<template-uuid>
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/feature/<template-uuid>`
 
 **Method:** PUT
 
@@ -491,7 +493,7 @@ Above PUT requests triggers the process to push the new template, Inorder to com
 
 After editing the AAA feature template, we need to initiate the template PUSH process by sending below POST Request. 
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/device/config/input/
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/device/config/input/`
 
 **Method:** POST
 
@@ -555,7 +557,7 @@ After editing the AAA feature template, we need to initiate the template PUSH pr
 
 **Fetching Devices attached**
 
-**Resource URL:** https://<vmanage-ip>/dataservice/template/device/config/attached/<template-id>
+**Resource URL:** `https://<vmanage-ip>/dataservice/template/device/config/attached/<template-id>`
 
 **Method:** GET
 
@@ -625,7 +627,7 @@ After editing the AAA feature template, we need to initiate the template PUSH pr
 
 **Monitor Template Push Operation:** 
 
-**Resource URL** https://<vmanage-ip>/dataservice/device/action/status/push_feature_template_configuration-d8a5bbec-7514-4956-ae58-a5debcfc8140 (push id is response to above POST request)
+**Resource URL** `https://<vmanage-ip>/dataservice/device/action/status/push_feature_template_configuration-d8a5bbec-7514-4956-ae58-a5debcfc8140` (push id is response to above POST request)
 
 Method: GET
 
