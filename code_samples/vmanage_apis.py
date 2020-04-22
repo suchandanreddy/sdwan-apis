@@ -123,8 +123,9 @@ def list_devices():
     table = list()
 
     for item in items:
-        tr = [item['host-name'], item['device-type'], item['latitude'], item['longitude'], item['certificate-validity'], item['version'], item['device-model'], item['system-ip']]
-        table.append(tr)
+        if item["reachability"] == "reachable":
+            tr = [item['host-name'], item['device-type'], item['latitude'], item['longitude'], item['certificate-validity'], item['version'], item['device-model'], item['system-ip']]
+            table.append(tr)
     try:
         click.echo(tabulate.tabulate(table, headers, tablefmt="fancy_grid"))
     except UnicodeEncodeError:
