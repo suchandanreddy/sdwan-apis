@@ -1,0 +1,156 @@
+   {
+      "devices": [
+        {
+          "system-ip": "11.11.11.11"
+        }
+      ],
+      "eventname": "certificate-expiration-status",
+      "type": "certificate-expiration-status",
+      "rulename": "certificate-expiration-status",
+      "component": "Certificate",
+      "entry_time": 1592607474946,
+      "statcycletime": 1592607474946,
+      "message": "Certificate expiring on 26 Jul 2020 23:59:59 UTC",
+      "severity": "Medium",
+      "severity_number": 3,
+      "uuid": "d1950891-ea2b-4a1c-bc80-2519878dbd9d",
+      "values": [
+        {
+          "expiration-date": "26 Jul 2020 23:59:59 UTC",
+          "system-ip": "11.11.11.11",
+          "host-name": "vBond-1",
+          "uuid": "abd5e9d7-9dee-4d00-98b5-fdc71de6ea63"
+        }
+      ],
+      "rule_name_display": "Certificate expiring",
+      "receive_time": 1592607474946,
+      "values_short_display": [
+        {
+          "expiration-date": "26 Jul 2020 23:59:59 UTC",
+          "system-ip": "11.11.11.11",
+          "host-name": "vBond-1"
+        }
+      ],
+      "acknowledged": false,
+      "active": true,
+      "tenant": "default",
+      "id": "AXLOzYUTGEYcfPHK5Inn"
+    },
+    {
+      "devices": [
+        {
+          "system-ip": "21.21.21.21"
+        }
+      ],
+      "eventname": "certificate-expiration-status",
+      "type": "certificate-expiration-status",
+      "rulename": "certificate-expiration-status",
+      "component": "Certificate",
+      "entry_time": 1592607474543,
+      "statcycletime": 1592607474543,
+      "message": "Certificate expiring on 09 Sep 2020 23:59:59 UTC",
+      "severity": "Medium",
+      "severity_number": 3,
+      "uuid": "993fd8cd-07f8-4494-92cd-09c4d3147429",
+      "values": [
+        {
+          "expiration-date": "09 Sep 2020 23:59:59 UTC",
+          "system-ip": "21.21.21.21",
+          "host-name": "vBond-2",
+          "uuid": "b6eec354-1d60-4c77-bb1a-7a704c28438b"
+        }
+      ],
+      "rule_name_display": "Certificate expiring",
+      "receive_time": 1592607474543,
+      "values_short_display": [
+        {
+          "expiration-date": "09 Sep 2020 23:59:59 UTC",
+          "system-ip": "21.21.21.21",
+          "host-name": "vBond-2"
+        }
+      ],
+      "acknowledged": false,
+      "active": true,
+      "tenant": "default",
+      "id": "AXLOzYN5GEYcfPHK5Inm"
+    }
+}
+
+0: {builtBy: "BFDDeviceDataCollector:createBFDConnections", eventname: "bfd-state-change",…}
+builtBy: "BFDDeviceDataCollector:createBFDConnections"
+component: "BFD"
+entry_time: 1592606585688
+eventname: "bfd-state-change"
+host-name: "BR1-CEDGE1"
+linkupdate: true
+local-color: "mpls"
+local-system-ip: "10.3.0.1"
+new-state: "up"
+peer-type: "vedge"
+receive_time: 1592606585692
+remote-color: "mpls"
+remote-system-ip: "10.1.0.1"
+system-ip: "10.3.0.1"
+vmanage-system-ip: "10.3.0.1"
+
+1: {builtBy: "BFDDeviceDataCollector:createBFDConnections", eventname: "bfd-state-change",…}
+builtBy: "BFDDeviceDataCollector:createBFDConnections"
+component: "BFD"
+entry_time: 1592606585692
+eventname: "bfd-state-change"
+host-name: "BR1-CEDGE1"
+linkupdate: true
+local-color: "mpls"
+local-system-ip: "10.3.0.1"
+new-state: "up"
+peer-type: "vedge"
+receive_time: 1592606585693
+remote-color: "mpls"
+remote-system-ip: "10.1.0.2"
+system-ip: "10.3.0.1"
+vmanage-system-ip: "10.3.0.1"
+
+2: {builtBy: "BFDDeviceDataCollector:createBFDConnections", eventname: "bfd-state-change",…}
+builtBy: "BFDDeviceDataCollector:createBFDConnections"
+component: "BFD"
+entry_time: 1592606585693
+eventname: "bfd-state-change"
+host-name: "BR1-CEDGE1"
+linkupdate: true
+local-color: "biz-internet"
+local-system-ip: "10.3.0.1"
+new-state: "up"
+peer-type: "vedge"
+receive_time: 1592606585693
+remote-color: "biz-internet"
+remote-system-ip: "10.1.0.1"
+system-ip: "10.3.0.1"
+vmanage-system-ip: "10.3.0.1"
+
+3: {builtBy: "BFDDeviceDataCollector:createBFDConnections", eventname: "bfd-state-change",…}
+builtBy: "BFDDeviceDataCollector:createBFDConnections"
+component: "BFD"
+entry_time: 1592606585694
+eventname: "bfd-state-change"
+host-name: "BR1-CEDGE1"
+linkupdate: true
+local-color: "biz-internet"
+local-system-ip: "10.3.0.1"
+new-state: "up"
+peer-type: "vedge"
+receive_time: 1592606585694
+remote-color: "biz-internet"
+remote-system-ip: "10.1.0.2"
+system-ip: "10.3.0.1"
+vmanage-system-ip: "10.3.0.1"
+
+BR1-CEDGE1#show sdwan bfd sessions
+                                      SOURCE TLOC      REMOTE TLOC                                      DST PUBLIC                      DST PUBLIC         DETECT      TX
+SYSTEM IP        SITE ID  STATE       COLOR            COLOR            SOURCE IP                       IP                              PORT        ENCAP  MULTIPLIER  INTERVAL(msec) UPTIME          TRANSITIONS
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+10.1.0.1         100      up          mpls             mpls             100.64.0.18                     100.64.0.2                      12366       ipsec  7           1000           0:02:42:11      0
+10.1.0.1         100      up          biz-internet     biz-internet     100.64.2.38                     100.64.2.26                     12366       ipsec  7           1000           0:02:42:11      0
+10.1.0.2         100      up          mpls             mpls             100.64.0.18                     100.64.0.6                      12366       ipsec  7           1000           0:02:42:12      0
+10.1.0.2         100      up          biz-internet     biz-internet     100.64.2.38                     100.64.2.30                     12366       ipsec  7           1000           0:02:42:12      0
+
+BR1-CEDGE1#
