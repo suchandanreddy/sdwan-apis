@@ -632,27 +632,69 @@ How to retrieve list of templates and attach device templates
 On windows command prompt, run command <b>py -3.7 vmanage_apis.py template-list</b> to retrieve the list<br>of device templates defined.
 </pre> 
 
-In `template-list` option, we use resource URI `template/device` to fetch the list of templates.
+In `template-list` option, we use resource URI `/template/device` to fetch the list of templates.
 
 **Sample Response**
 
 ```
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py template-list
+Retrieving the templates available.
+╒═══════════════════════════════════╤═════════════════════╤══════════════════════════════════════╤════════════════════╕
+│ Template Name                     │ Device Type         │ Template ID                          │   Attached devices │
+╞═══════════════════════════════════╪═════════════════════╪══════════════════════════════════════╪════════════════════╡
+│ vSmartConfigurationTemplate       │ vsmart              │ e1f3de23-1ded-49d8-85b1-1e6ab668775f │                  0 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ Factory_Default_ISR_4331_V01      │ vedge-ISR-4331      │ f52767b8-db2c-42f1-8f5f-2f5d295dee25 │                  0 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ Factory_Default_CSR_1000V_V01     │ vedge-CSR-1000v     │ 4b523c91-82ee-46a2-91b1-87e0c7e9bef5 │                  0 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ BranchType2Template-vEdge         │ vedge-cloud         │ 2463357c-4261-48fe-a13e-bab7aec5c002 │                  0 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ VSMART-device-template            │ vsmart              │ 55eb96ec-237d-4170-8841-3321a04e01a7 │                  2 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ 20_1_BranchType1Template-CSR      │ vedge-CSR-1000v     │ 9b921d74-37e8-460b-9966-5a6ddef871b9 │                  2 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ DC-vEdges                         │ vedge-cloud         │ 6c7d22bc-73d5-4877-9402-26c75a22bd08 │                  2 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ BranchType1Template-CSR           │ vedge-CSR-1000v     │ c62e6fba-fb53-4562-b436-3878de0fbbc2 │                  0 │
+├───────────────────────────────────┼─────────────────────┼──────────────────────────────────────┼────────────────────┤
+│ Factory_Default_C1111_8PLTELA_V01 │ vedge-C1111-8PLTELA │ b6aacdc9-ae1f-4471-a359-13657ce98204 │                  0 │
+╘═══════════════════════════════════╧═════════════════════╧══════════════════════════════════════╧════════════════════╛
 
+C:\Users\Administrator\Desktop\sdwan_prog_lab>
 ```
 
-## Create Templates
+## Centralized Policies List
 
-Now let’s start using the python script to validate a vedge router.
+**Step-1:**
 
-  - Build payload to provide the variables needed to create template
-  - Perform the POST operation by sending template variables in payload. 
+<pre>
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py central-policies-list</b> to retrieve the list<br>of centralized policies defined.
+</pre> 
 
-We can use `.yaml` file to store all the required variables for configuring the template. For example, please see below file `banner_config.yaml`
+In `central-policies-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
+
+**Sample Response**
 
 ```
 ```
 
-While building the templates, we can load the content from above `.yaml` file 
+## Activate Central Policy
+
+**Step-1**
+
+<pre>
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py activate-policy --name MultiTopologyPlusAppRoute</b> to activate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
+</pre>
+
+In `central-policies-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
+
+**Sample Response**
+
+```
+```
+
+## Modify Preferred Color in App Route Policy
 
 ### Code Components
 
@@ -664,18 +706,7 @@ Please note that this is a FYI section which includes code snippets and structur
 ### Code snip
 
 ```
-with open(input_yaml) as f:
-	config = yaml.safe_load(f.read())
 ```
-
-`.yaml` file contents are stored in `config` dictionary which is used in creating below payload variable. 
-
-### Code snip
-
-```
-```
-
-Using POST request to URL "template/feature/" to create the template.
 
 ### Code snip 
 
@@ -685,32 +716,21 @@ Using POST request to URL "template/feature/" to create the template.
 </details>
 <br>
 
-**Step-1:**
-
-**Note:** Provide the yaml file to script using the option `--input_yaml`
+**Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py create-feature-template --input_yaml banner_config.yaml</b> <br>to create the banner template based on the variables defined in banner_config.yaml file.
-</pre> 
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py modify-policy --name MultiTopologyPlusAppRoute --pref-color public-internet</b> to retrieve the list<br>of device templates defined.
+</pre>
+
+In `central-policies-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
 
 **Sample Response**
 
 ```
-$ py -3.7 vmanage_apis.py create-feature-template --input_yaml banner_config.yaml
-Creating feature template based on yaml file details
-Loading Network Configuration Details from YAML File
-
-Created banner template ID:  {'templateId': '493667fb-635f-49f4-bd83-9b430497be26'}
 ```
-
-When template is created, the vManage returns the templateId which can be used in further operations like attaching the feature template to the device template. 
-
 
 ## Conclusion
 
-In this section, we have learned how to retrieve the list of templates, create a feature template based on the values stored in .yaml file.
-
-Instead of .yaml file we can also store all required variables in .csv file and create the templates by reading variables data from .csv file. 
 
 #	Usecase-3: App route statistics (Latency/Loss/Jitter)
 
@@ -1609,12 +1629,14 @@ In this section we have learned how to build Query to diferent scenarios to retr
 # Usecase-5: Webhook 
 
 -   Webhooks enable push-model mechanism to send notifications in real-time.
--   In order to retrieve alarms in real-time from the vManage using the REST APIs, we need to poll for the data frequently. However by using webhooks, vManage can send HTTP POST request to the external systems in real-time once alarm is received. 
--   Webhooks are sometimes referred to as “Reverse APIs” and we must design an API to consume or process the data sent via webhook.
+-   Polling for Alarms is expensive!
+-   Webhooks are sometimes referred to as **Reverse APIs**
+-   With Webhook Notifications enabled, when vManage recieves alarms, it sends HTTP POST request with alarm details to the external systems in real-time.
+-   We need to design an API route to process the data sent via Webhook.
 
 ## Objective
 
-Enable webhooks on vManage and write API to consume the data sent from vManage to webhook server. 
+Enable webhooks on vManage and write API route to consume the data sent from vManage to webhook server. 
 
 ## Prerequisites
 
@@ -1626,47 +1648,74 @@ Steps to enable webhook notifications for pushing alarms to external systems.
 
 **Step-1:**
 
--	Select "Email Notifications" from "Monitor -> Alarms"
+- Select **Email Notifications** from **Monitor -> Alarms**
 
-![home screen](images/webhook_1.png)
+![webhook](images/step1.png)
 
 **Step-2:**
 
--  Enter name of the webhook as `webhook_test`
--	Select severity level as Critical and Medium.
--	Select Alarm Name as Interface Admin State Change, Interface State Change.
+- Click on **Add Email Notification**
 
-![webhook](images/webhook_2.png)
+![](images/step2.png)
 
 **Step-3:**
 
--	Click on `Add Email list` and provide dummy emailid `test@test.com` as we are using only webhooks in our lab.
+- Enter Notification rule name : <b>sevt-webhooks</b>
+- Select severity level : <b>Critical</b>
+- Select Alarm Name : <b>System Reboot Issued</b>
 
-![webhook](images/webhook_3.png)
+![webhook](images/step3.png)
 
 **Step-4:**
 
--	Enable webhook checkbox.
--	Provide the webhook server URL, username and password for webhook. ( Note : Here webhook	server doesn't have authentication configured, please provide dummy username and password i.e test/test ) 
--	Webhook URL should be `http://198.18.133.36:5001/`
--  Select `All Devices` option and click on `Add` to complete the webhook settings. 
+- Click on <b>Add Email list</b> and then <b>Add Email</b>
+- Enter dummy email-id **test@test.com** , as we are using only webhooks in this lab
 
-![webhook](images/webhook_4.png)
+![webhook](images/step11.png)
+
+![webhook](images/step10.png)
+
+![webhook](images/step4.png)
 
 **Step-5:**
 
--	Enable email notifications in Administration settings of vManage.
--  Select Security option `None` and enter SMTP Server as `test.mail.com`
--  Enter From address and Reply to address as `test@test.com`
+- Enable webhook checkbox.
+- Provide the webhook server URL, username and password. 
+- Username : **sevt**
+- Password : **sevt**
+- Webhook Server URL : http://198.18.133.36:5001/
 
-![email](images/webhook_6.png)
+- Select **All Devices** and click on **Add** to complete the webhook settings.
 
+![webhook](images/step5.png)
 
-##	 Notifications Dashboard 
+**Step-6:**
 
-- List of webhooks or notifications configured can be seen in section `Alarms > Email Notifications`
+- Select `Administration -> Settings`.
 
-![notifications](images/webhook-5.png)
+![](images/admin_settings.png)
+
+- Click on `Edit` for `Email Notifications` 
+
+![](images/email-edit.png)
+
+- Enter dummy email address and SMTP server details as we are using only Webhook Notifications in this lab.
+
+- Select `Enabled` radio button
+- SMTP Server : `test.mail.com`
+- SMTP Port : `25`
+- From address : `test@test.com`
+- Reply to address : `test@test.com`
+- Click Save to enable Email/Webhook Notifications
+
+![](images/admin_email.png)
+
+#	Notifications Dashboard 
+
+List of Notifications rules configured can be seen in section **Alarms -> Email Notifications**
+
+![webhook](images/step6.png)
+
 
 ## Set up Webhook server on Windows VM
 
@@ -1674,19 +1723,51 @@ Now let’s try to set up webhook server on windows VM to accept notifications s
 
 - In order to accept HTTP post requests sent from vManage, we need to enable http web server and design API route.
 - Below code spins up flask web server listening on port 5001 for HTTP POST request
-- Defined alarms() functions accepts the POST request at route http://server-ip:port/ and extracts the data from request.
+- Defined alarms() functions accepts the POST request at route `http://server-ip:port/` and extracts the data from request.
 
 ```
-from flask import Flask, request
+from flask import Flask, request, jsonify
+from flask_basicauth import BasicAuth
 import json
+import datetime
+import pytz
 
 app = Flask(__name__)
 
+app.config['BASIC_AUTH_USERNAME'] = 'sevt'
+app.config['BASIC_AUTH_PASSWORD'] = 'sevt'
+
+basic_auth = BasicAuth(app)
+
 @app.route('/',methods=['POST'])
+@basic_auth.required
 def alarms():
-   data = json.loads(request.data)
-   print(data)
-   return "OK"
+   try:
+      data = json.loads(request.data)
+      print(data)
+      PDT = pytz.timezone('America/Los_Angeles')
+            
+      temp_time = datetime.datetime.utcfromtimestamp(data['entry_time']/1000.)
+      temp_time = pytz.UTC.localize(temp_time).astimezone(PDT).strftime('%m/%d/%Y %H:%M:%S') + ' PDT'
+
+      table = list()
+      headers = ["Date & Time (PDT)", "Alarm Name" , "Severity", "Details" ]
+
+      tr = [ temp_time, data['rule_name_display'] , data['severity'], 
+             "UUID: " + data["uuid"] + "\nValues:\n" + json.dumps(data["values"] , sort_keys=True, indent=4) ]
+      
+      table.append(tr)
+        
+      try:
+          print(tabulate.tabulate(table, headers, tablefmt="fancy_grid"))
+      except UnicodeEncodeError:
+          print(tabulate.tabulate(table, headers, tablefmt="grid"))
+      
+   except Exception as exc:
+      print(exc)
+      return jsonify(str(exc)), 500
+   
+   return jsonify("Parsed Webhook Notification Successfully"), 200
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=5001, debug=True)
@@ -1715,24 +1796,100 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 webhook.py
 
 **Step-2**
 
-- Login to mputty software and select `vBond` under `Infrastructure` 
-- Login details for vBond is username/password : admin/admin
-- In vpn512, `shut` and `no shut` interface eth0 to trigger an alarm. Please see below screenshot for command output. 
+- Login to mputty software and select any device (Branch routers or DC routers)
+- Login details for BR or DC routers is username/password : admin/admin
+- Command to initiate reload is `reload` for `cEdge` router and `reboot now`  for `vEdge` router.
 
-![vbond alarm](images/vbond_alarm_creation.png)
+![vbond alarm](images/reboot_trigger.png)
 
-Once alarm is received on vmanage, vmanage pushes the notification to webhook server and below is the sample output on webhook server on receiving notifications from the vManage.
+Once alarm is received on vManage, vManage pushes the notification to webhook server and below is the sample output on webhook server on receiving notifications from the vManage.
 
 **Sample Response**
 
+**Webhook Notification (JSON format):**
+
 ```
+{
+  "devices": [
+    {
+      "system-ip": "10.1.0.1"
+    }
+  ],
+  "eventname": "system-reboot-issued",
+  "type": "system-reboot-issued",
+  "rulename": "system-reboot-issued",
+  "component": "System",
+  "entry_time": 1593378752000,
+  "statcycletime": 1593378752000,
+  "message": "The device rebooted",
+  "severity": "Critical",
+  "severity_number": 1,
+  "uuid": "6c6b76ed-074f-452a-9484-8e5277f5930c",
+  "values": [
+    {
+      "host-name": "DC1-VEDGE1",
+      "system-ip": "10.1.0.1",
+      "reboot-reason": "Initiated by user"
+    }
+  ],
+  "rule_name_display": "System_Reboot_Issued",
+  "receive_time": 1593378751326,
+  "values_short_display": [
+    {
+      "host-name": "DC1-VEDGE1",
+      "system-ip": "10.1.0.1"
+    }
+  ],
+  "acknowledged": false,
+  "active": true
+}
+```
+
+Script `webhook.py` parses the webhook notification and creates a table in below format with alarm details
+
+**Sample response for DC1-VEDGE1 router reboot alarm**
+
+```
+╒═════════════════════════╤══════════════════════╤════════════╤═══════════════════════════════════════════════╕
+│ Date & Time (PDT)       │ Alarm Name           │ Severity   │ Details                                       │
+╞═════════════════════════╪══════════════════════╪════════════╪═══════════════════════════════════════════════╡
+│ 06/28/2020 14:20:16 PDT │ System_Reboot_Issued │ Critical   │ UUID: c8cd1f41-06de-4907-bbd0-2c76cdd13f6f    │
+│                         │                      │            │ Values:                                       │
+│                         │                      │            │ [                                             │
+│                         │                      │            │     {                                         │
+│                         │                      │            │         "host-name": "DC1-VEDGE1",            │
+│                         │                      │            │         "reboot-reason": "Initiated by user", │
+│                         │                      │            │         "system-ip": "10.1.0.1"               │
+│                         │                      │            │     }                                         │
+│                         │                      │            │ ]                                             │
+╘═════════════════════════╧══════════════════════╧════════════╧═══════════════════════════════════════════════╛
+198.18.1.10 - - [28/Jun/2020 17:20:18] "←[37mPOST / HTTP/1.1←[0m" 200 -
+```
+
+**Sample response for BR1-CEDGE1 router reboot alarm**
+
+```
+╒═════════════════════════╤══════════════════════╤════════════╤════════════════════════════════════════════╕
+│ Date & Time (PDT)       │ Alarm Name           │ Severity   │ Details                                    │
+╞═════════════════════════╪══════════════════════╪════════════╪════════════════════════════════════════════╡
+│ 06/28/2020 14:20:43 PDT │ System_Reboot_Issued │ Critical   │ UUID: 0685234d-c5a6-43fd-802e-28ff76b8a915 │
+│                         │                      │            │ Values:                                    │
+│                         │                      │            │ [                                          │
+│                         │                      │            │     {                                      │
+│                         │                      │            │         "host-name": "BR1-CEDGE1",         │
+│                         │                      │            │         "reboot-reason": "Reload Command", │
+│                         │                      │            │         "system-ip": "10.3.0.1"            │
+│                         │                      │            │     }                                      │
+│                         │                      │            │ ]                                          │
+╘═════════════════════════╧══════════════════════╧════════════╧════════════════════════════════════════════╛
+198.18.1.10 - - [28/Jun/2020 17:21:03] "←[37mPOST / HTTP/1.1←[0m" 200 -
 ```
 
 ## Alarms on vManage
 
 -	Above webhook logs corresponds to these alarms which were recieved by vManage.
 
-![alarms](images/webhook_7.png)
+![alarms](images/vmanage_alarms_1.png)
 
 ## Conclusion
 
