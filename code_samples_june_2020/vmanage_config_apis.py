@@ -297,7 +297,7 @@ def approute_modify_color(name,seq_name,pref_color):
         new_path = pref_color
         app_route_policy_name = name
 
-        if seq-name is None or pref_color is None or name is None :
+        if seq_name is None or pref_color is None or name is None :
             click.echo("\nInput parameters App route policy name or Sequence name or Preferred color is missing")  
             exit()   
 
