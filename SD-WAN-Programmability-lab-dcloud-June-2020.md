@@ -1968,6 +1968,22 @@ Script `webhook.py` parses the webhook notification and creates a table in below
 
 ![alarms](images/vmanage_alarms_1.png)
 
+## Cleanup
+
+- Please help in deleting the Webhook Notifications rule configured and Disable Email Notifications in Administration Settings. 
+
+- Go to Monitor -> Alarms -> Email Notifications and click on bin to delete the  webhook  notifications rule
+
+![](images/delete-webhook-1.png)
+
+-  Click **OK** to confirm delete
+
+![](images/delete-webhook-2.png)
+
+- Go to Administration -> Settings and select **Disabled** for Email notifications. 
+
+![](images/delete-webhook-3.png)
+
 ## Conclusion
 
 In this section, we learned how to enable webhook notifications on the vManage and how to build the API route to process the data recieved from vManage via webhook notifications.
