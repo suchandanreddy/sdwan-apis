@@ -799,34 +799,11 @@ In this section we have learnt how to use vManage APIs to
 
 ## Objective
 
-How to retrieve the App Route Statistics (Latency/Loss/Jitter) and create excel/csv report.
-
-In Hub-n-Spoke topology, create report of Average App Route Statistics (loss/latency/jitter) based on below conditions
-
-- Average of stats for every 24 hours
-- For all Tunnels(BFD sessions) originating from hub
-- User Input - Start and End date
-
-![topo](images/usecase_3_topo.png)
-
-## Aggregation API Constructs
-
-Aggregation API query is created using below constructs  
-
-- Query Conditions
-
-- Aggregation components:
-
-  - Field
-
-  - Histogram
-
-  - Metrics
-
+How to retrieve the App Route Statistics (Latency/Loss/Jitter) using Aggregation APIs and create excel/csv report.
 
 ## Resource URL Structure Components
 
-Resource URL to retrieve app route statistics i.e. latency, loss and jitter  `/statistics/approute/fec/aggregation`
+Resource URL to retrieve app route statistics i.e. latency, loss and jitter using aggregation apis is `/statistics/approute/fec/aggregation`
 
 URL : `https://<vmanage-ip>/dataservice/statistics/approute/fec/aggregation`
 
@@ -836,11 +813,21 @@ URL : `https://<vmanage-ip>/dataservice/statistics/approute/fec/aggregation`
 | Server or Host  | Resolves to the IP and port to which to connect, example : "<vmanage-ip:port>" |
 | Resource | The location of the data or object of  interest, example : "/statistics/approute/fec/aggregation" |
 
+## Use case requirements
+
+For a given Hub-n-Spoke topology, we will use vManage APIs to retrieve and create report of Average App Route Statistics (loss/latency/jitter) and vQoE score based on below conditions
+
+- User Input - Start and End date for report
+- Average of stats for every 24 hours
+- For all Tunnels(BFD sessions) originating from hub routers.
+
+![topo](images/usecase_3_topo.png)
+
 Now let’s start using the python script to fetch the app route statistics by using below steps
 
   - login and authenticate to a vManage instance
   - Run GET request to `https://<vmanage-ip>/dataservice/statistics/approute/fields` to know supported Query fields
-  - Build Query to specify the rules on how to retrieve and aggregate app route statistics. 
+  - Build Query to specify the rules on how to retrieve and Aggregate App Aware Route statistics. 
   - Perform the POST operation by sending query in payload
 
 ## App Route Query Fields
@@ -849,7 +836,7 @@ Now let’s start using the python script to fetch the app route statistics by u
 
 <pre>
 On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py</b> to get the list of options available
-in the monitor-app-route-stats.py CLI based python application script.
+in the **monitor-app-route-stats.py** CLI based python application script.
 </pre>
 
 **Sample Response**
@@ -875,7 +862,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 **Step-2**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-fields</b> to get the list of App Route Aggregation API supported Query fields.
+On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-fields</b> to get the list of<br>App Route Aggregation API supported Query fields.
 </pre>
 
 **Sample Response**
@@ -895,14 +882,26 @@ Using these App Route Aggregation API query fields let's define the Aggregation 
 
 ## Aggregation API Query Payload
 
-- For vManage Aggregation APIs, we need to define query conditions/rules and based on these rules the data records are extracted from vManage. Some of the common supported rules are to select based on stats entry_time to get statistics in specific interval of time, then use various query fields like local system-ip, local color, remote color to get the records for specific edge routers, transport circuits in that time interval.
+- Aggregation API query is created using below constructs  
 
+  - Query Conditions
+
+  - Aggregation components:
+
+    - Field
+
+    - Histogram
+
+    - Metrics
+
+
+- For example, we need to first define Query Conditions(rules) and based on these rules the data records are extracted from vManage. Some of the common supported rules are to select based on stats entry_time to get statistics in specific interval of time, then use various query fields like local system-ip, local color, remote color to get the records for specific edge routers, transport circuits in that time interval.
+
+- Once Query conditions are determined then provide the fields, histogram and metrics which determines how data is aggregated.
 
 ### Example-1
 
 -	Below example query retrieves average latency/loss/jitter and vqoe score for last 1 hour for all tunnels between routers with provided `local` and `remote` system-ip
--	The aggregation portion of the query determines how data is bucketized/grouped. 
-
 
 ```
 {
@@ -979,7 +978,7 @@ Using these App Route Aggregation API query fields let's define the Aggregation 
           {
               "value": [
                         start_date+"T00:00:00 UTC",
-                        end_date+"T00:00:00 UTC" 
+                        end_date+"T23:59:59 UTC" 
                        ],
               "field": "entry_time",
               "type": "date",
@@ -1043,18 +1042,15 @@ Using these App Route Aggregation API query fields let's define the Aggregation 
       }
 ```
 
-Using the **Example-1** and **Example-2** query lets perform POST operation on URI to retrieve the app route statistics latency/loss/jitter statistics.
+Using the **Example-1** and **Example-2** query lets perform POST operation to retrieve the app route statistics latency/loss/jitter and vQoE score.
 
 ## POST Operation
-
-To fetch the App route statistics we need to perform POST operation by sending the query in payload.
 
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-stats</b> to run <br>POST request using the Query in <b>Example-1</b> i.e to retrieve average latency/loss/jitter and vQoE score between <br>2 routers
-for last 1 hour.<br>
-Enter `10.1.0.1` as Router-1 System IP address and `10.3.0.1` as Router-2 System IP address.
+On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-stats</b> to run POST request<br>using the Query in <b>Example-1</b> i.e to retrieve average latency/loss/jitter and vQoE score between 2 routers for<br>last 1 hour.<br>
+Enter <b>10.1.0.1</b> as Router-1 System IP address and <b>10.3.0.1</b> as Router-2 System IP address.
 </pre>
 
 **Sample Response**
@@ -1089,7 +1085,7 @@ Average App route statistics between 10.3.0.1 and 10.1.0.1 for last 1 hour
 **Step-2**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-report --help</b> to run <br>POST request using the Query in <b>Example-1</b> i.e to retrieve average latency/loss/jitter and vQoE score between <br> Hub and Spoke Routers for provided start to end date.<br>
+On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-report --help</b> to run <br>POST request using the Query in <b>Example-2</b> i.e to retrieve average latency/loss/jitter and vQoE score between<br>Hub and Spoke Routers for provided start to end date.<br>
 </pre>
 
 **Sample Response**
