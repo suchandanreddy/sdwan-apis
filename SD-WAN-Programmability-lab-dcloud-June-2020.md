@@ -32,8 +32,6 @@ Table of Contents
       * [Activate Central Policy](#activate-central-policy)
       * [Modify Preferred Color in App Route Policy](#modify-preferred-color-in-app-route-policy)
          * [Code Components](#code-components-1)
-         * [Code snip](#code-snip-1)
-         * [Code snip](#code-snip-2)
       * [Conclusion](#conclusion-1)
    * [Usecase-3: App route statistics (Latency/Loss/Jitter)](#usecase-3-app-route-statistics-latencylossjitter)
       * [Objective](#objective-2)
@@ -79,8 +77,8 @@ Table of Contents
 ## API Categories
 
 - In REST API terminology, each of these features or operations is called a Resource URIs. 
--	A resource is an object(API end point) with a type, associated data, relationships to other resources, and a set of methods that operate on it.
-- on vManage, resources are grouped into collections and below is that list.
+- A resource is an object(API end point) with a type, associated data, relationships to other resources, and a set of methods that operate on it.
+- On vManage, resources are grouped into collections and below is that list.
 
 | Resource Collection | Description |
 | ------ | ------ |		
