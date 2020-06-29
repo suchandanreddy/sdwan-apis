@@ -158,7 +158,7 @@ Provide **C:\Users\Administrator\Desktop** as path and select Extract option.
 
 ![extract-2](images/extract-new-2.2.png) 
 
-# Setup Instructions:
+# Setup Instructions
 
 Launch **Command Prompt** from Windows VM Desktop using below shortcut.
 
@@ -175,6 +175,10 @@ Command to set PATH env for current session:
 Command to set PATH env permanently:
 
 `setx PATH "%PATH%;C:\Python3\Scripts\"`
+
+Right Click on top of the cmd prompt window and select Edit -> Paste to paste the command on to cmd prompt
+
+![](images/copy-paste-cmd.png)
 
 ![](images/windows-cmd-1.png)
 
