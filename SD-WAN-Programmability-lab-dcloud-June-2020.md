@@ -1427,6 +1427,14 @@ Now let's have a look at the sample responses to POST operation
 - Run command `clear control connections` (for vEdge) or `clear sdwan control connections` (for cEdge) to trigger alarms
 which can be retrieved in next steps using APIs.
 
+**For DC1-VEDGE1 router**
+
+![](images/clear-control-vedge.png)
+
+**For BR1-CEDGE1 router**
+
+![](images/clear-control-cedge.png)
+
 **Step-1**
 
 <pre>
