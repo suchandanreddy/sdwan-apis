@@ -103,14 +103,14 @@ Table of Contents
 
 ##	 Accessing the lab
 
-**Note:** This lab utilizes the dCloud SD-WAN platform so, please schedule dcloud lab ahead of time before proceeding with below steps.
+**Note:** This lab utilizes the dCloud SD-WAN Sandbox so, please check with instructor for dCloud sandbox details. 
 
 ![flow](images/Accessing_Lab.png)
 
 **Step-1**
 
 Connect to your dCloud session by opening your Cisco AnyConnect client and
-providing the following information to connect into the lab session:
+providing the following information to connect into the lab session.
 
 | Parameter | Input |
 | ------ | ------ |
@@ -127,8 +127,8 @@ providing the following information to connect into the lab session:
 For MAC laptop users download link:
 https://itunes.apple.com/us/app/microsoft-remote-desktop-10/id1295203466 
 
-Open your local Remote Desktop Client application and connect to the lab Jumphost
-. This host has access to all network devices and can run our python scripts.  
+- Open your local Remote Desktop Client application and connect to the lab Jumphost
+- This Windows VM (Jumphost) has access to all network devices and we will also run our python scripts on this VM.
 
 | Parameter | Input |
 | ------ | ------ |
@@ -136,7 +136,7 @@ Open your local Remote Desktop Client application and connect to the lab Jumphos
 | Username | **Instructor Provided**  |
 | Password| **Instructor Provided** |
 
-Click ignore/continue if prompted with an invalid certificate warning:
+Click ignore/continue if prompted with an invalid certificate warning.
 
 ![rdp](images/windows-RDP.png)
 
@@ -144,21 +144,25 @@ This will place you onto “WKST1” which is the launching point for all lab ta
 
 **Step-3**
 
-Once you are on windows machine, launch the Google Chrome browser. 
+- Once you are on windows machine, launch the Google Chrome browser. 
 
-Open the box link `cs.co/sevt-2020` in google chrome browser and click on download. 
+- Open the box link `cs.co/sevt-2020` in google chrome browser and click on download. 
 
-![download](images/download.png) 
+![download](images/download-new.png) 
 
-Go to Downloads directory on file explorer and right click on the zip and select `extract all` as seen below 
+Go to Downloads directory on file explorer and right click on the zip file `sdwan_prog_lab.zip` and select `extract all` as seen below 
 
-![extract-1](images/extract-1.png)
+![extract-1](images/extract-1-new.png)
 
-Provide `C:\Users\Administrator\Desktop` as path and select Extract option. 
+Provide **C:\Users\Administrator\Desktop** as path and select Extract option. 
 
-![extract-2](images/extract-2.png) 
+![extract-2](images/extract-new-2.2.png) 
 
 # Setup Instructions:
+
+Launch **Command Prompt** from Windows VM Desktop using below shortcut
+
+![](images/command-prompt.png)
 
 **Step-1**
 
@@ -172,9 +176,11 @@ Command to set PATH env permanently:
 
 `setx PATH "%PATH%;C:\Python3\Scripts\"`
 
+![](images/windows-cmd-1.png)
+
 **Step-2**
 
-Once env path is updated, run cmd `cd C:\Users\Administrator\Desktop\sdwan_prog_lab` on command prompt.
+Once PATH env variable is updated, run cmd `cd C:\Users\Administrator\Desktop\sdwan_prog_lab` on command prompt.
 
 **Step-3**
 
@@ -184,7 +190,7 @@ Now install python package requirements by using the command `pip3 install -r re
 
 Run below commands using the vmanage ip address, port, login credentials from dcloud session details.
 
-These commands should be run in command prompt to set the environment variables which stores vmanage details. 
+These commands should be run in command prompt to set the environment variables which stores vmanage login details. 
 
 <pre>
 set vmanage_host=<b>Instructor Provided</b>
@@ -195,7 +201,7 @@ set vmanage_password=<b>Instructor Provided</b>
 
 #	 Lab Flow/Use cases
 
-The Lab begins with the all devices in fabric being up and running. We use the python scripts to execute below REST API calls.
+The Lab begins with all devices in fabric being up and running. We use the python scripts to execute below REST API calls.
 
 1.	Device and Monitoring APIs
 
@@ -203,11 +209,11 @@ The Lab begins with the all devices in fabric being up and running. We use the p
 
 2.	Configuration APIs
 
-    - create templates and attach templates to devices.
+    - Use vManage APIs to retrieve list of templates and policies, activate/deactivate a policy, edit preferred color in specific Application Aware Routing Policy sequence.
 
 3.	App Route Statistics APIs
 
-    - Use Aggregation Query APIs to retrieve Application Aware Routing statistics (BFD statistics) for Overlay Tunnels and create report of average latency/loss/jitter.
+    - Use Aggregation Query APIs to retrieve Application Aware Routing statistics (BFD statistics) for Overlay Tunnels and create report of average latency/loss/jitter and vQoE score.
 
 4.	Alarms APIs
 
@@ -217,7 +223,7 @@ The Lab begins with the all devices in fabric being up and running. We use the p
 
 	- 	Learn how to enable webhooks on vManage and write API route to consume the data sent from vManage to webhook server.
 
-Now let's start with 1st use case and learn how to use Device and Monitoring APIs
+Now let's start with usecase-1 and learn how to use Device and Monitoring APIs
 
 #	Usecase-1: Device and Monitoring APIs
 
