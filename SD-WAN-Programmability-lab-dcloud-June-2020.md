@@ -347,7 +347,6 @@ Open Windows Command prompt and execute the command <b>py -3.7 vmanage_apis.py</
 **Sample Response**
 
 ```
-
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py
 Usage: vmanage_apis.py [OPTIONS] COMMAND [ARGS]...
 
@@ -364,7 +363,6 @@ Commands:
   device-list       Retrieve and return network devices list.
   interface-status  Retrieve and return information about Interface status...
   system-status     Retrieve and return information about System status of...
-  template-list     Retrieve and return templates list.
 ```
 
 Now let’s make an API call to fetch the list of devices in the SD-WAN fabric. 
