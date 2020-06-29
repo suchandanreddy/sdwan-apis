@@ -154,7 +154,7 @@ Go to Downloads directory on file explorer and right click on the zip file `sdwa
 
 ![extract-1](images/extract-1-new.png)
 
-Provide **C:\Users\Administrator\Desktop** as path and select Extract option. 
+Provide **C:\Users\Administrator\Desktop** as path and select **Extract** option. 
 
 ![extract-2](images/extract-new-2.2.png) 
 
@@ -176,7 +176,7 @@ Command to set PATH env permanently:
 
 `setx PATH "%PATH%;C:\Python3\Scripts\"`
 
-Right Click on top of the cmd prompt window and select Edit -> Paste to paste the command on to cmd prompt
+**Right Click** on top of the cmd prompt window and select **Edit -> Paste** to paste the command on to cmd prompt
 
 ![](images/copy-paste-cmd.png)
 
