@@ -2,7 +2,6 @@
 SD-WAN Programmability Lab Guide 
 ================================
 
-
 Table of Contents
 =================
 
@@ -17,6 +16,7 @@ Table of Contents
    * [Usecase-1: Device and Monitoring APIs](#usecase-1-device-and-monitoring-apis)
       * [Objective](#objective)
       * [Code Components](#code-components)
+      * [Authentication](#authentication)
       * [Resource URL Structure Components](#resource-url-structure-components)
       * [List Devices](#list-devices)
       * [Control Status](#control-status)
@@ -26,16 +26,17 @@ Table of Contents
       * [Conclusion](#conclusion)
    * [Usecase-2: Configuration APIs](#usecase-2-configuration-apis)
       * [Objective](#objective-1)
+      * [Configuration APIs](#configuration-apis)
       * [Templates list](#templates-list)
       * [Centralized Policies List](#centralized-policies-list)
-      * [Activate Central Policy](#activate-central-policy)
+      * [Activate Centralized Policy](#activate-centralized-policy)
       * [Modify Preferred Color in App Route Policy](#modify-preferred-color-in-app-route-policy)
-         * [Code Components](#code-components-1)
+      * [Deactivate Centralized Policy](#deactivate-centralized-policy)
       * [Conclusion](#conclusion-1)
    * [Usecase-3: App route statistics (Latency/Loss/Jitter)](#usecase-3-app-route-statistics-latencylossjitter)
       * [Objective](#objective-2)
-      * [Aggregation API Constructs](#aggregation-api-constructs)
-      * [Resource URL Structure Components](#resource-url-structure-components-2)
+      * [Resource URL Structure Components](#resource-url-structure-components-1)
+      * [Use case requirements](#use-case-requirements)
       * [App Route Query Fields](#app-route-query-fields)
       * [Aggregation API Query Payload](#aggregation-api-query-payload)
          * [Example-1](#example-1)
@@ -44,7 +45,7 @@ Table of Contents
       * [Conclusion](#conclusion-2)
    * [Usecase-4: Alarms APIs](#usecase-4-alarms-apis)
       * [Objective](#objective-3)
-      * [Resource URL Structure Components](#resource-url-structure-components-3)
+      * [Resource URL Structure Components](#resource-url-structure-components-2)
       * [Query Payload](#query-payload)
          * [Example-1](#example-1-1)
          * [Example-2](#example-2-1)
@@ -1115,7 +1116,7 @@ hub_routers:
 **Step-3**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-report --hub_list_file hub_list.yaml</b> to run <br>POST request using the Query in <b>Example-2</b> i.e to retrieve average latency/loss/jitter and vQoE score.
+On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py approute-report --hub_list_file hub_list.yaml</b><br>to run POST request using the Query in <b>Example-2</b> i.e to retrieve average latency/loss/jitter and vQoE score.
 </pre>
 
 
@@ -1129,13 +1130,17 @@ Please enter end date(YYYY-MM-DD): 2020-06-27
 Created report of Average App Route statistics for Tunnels between Hub routers and Spokes for 2020-06-26 and 2020-06-27
 ```
 
+Now Launch Google Chrome and use any of the online excel viewer to see the excel sheet or use the CSVviewer application on Windows VM(Jumphost) to view the CSV file.
+
 ## Conclusion 
+
+In this section we have learned how to build Aggregation API Query to retrieve Average App Aware Route statistics  and create report in excel/csv format.
 
 # Usecase-4: Alarms APIs
 
 ## Objective
 
-Demonstrating retrieval of alarms using Simple Query vManage APIs.
+How to retrieve alarms using Simple Query vManage APIs.
   
 ## Resource URL Structure Components
 
@@ -1154,15 +1159,15 @@ Now let’s start using the python script to fetch the alarms by using below ste
   - Build Query to specify the rules on how to retrieve alarms
   - Perform the POST operation by sending query in POST request payload
 
-Using `Authentication Class` we will authenticate with vManage and get cookie(JSESSIONID) and Token (Token is retrieved only if vManage version is 19.2 or above). Session Cookie and Token are used in subsequent API calls for validating user session. 
+Using `Authentication` class we will authenticate with vManage and get cookie(JSESSIONID) and Token (Token is retrieved only if vManage version is 19.2 or above). Session Cookie and Token are used in subsequent API calls for validating user session. 
 
-Now lets define the Query which can be used to collect alarms using POST operation on `https://vmanage-ip/dataservice/alarms`
+Now let's define the Query which can be used to collect alarms using POST operation on `https://vmanage-ip/dataservice/alarms`
 
 ##   Query Payload
 
 ###   Example-1
 
--	Between operator can be used to fetch the alarms for a custom interval for example i.e. 08:50:00 UTC to 8:55:00 UTC ( 5 mins interval )
+-	Between operator can be used to fetch the alarms for a custom interval for example i.e. 08:50:00 UTC to 8:55:00 UTC (5 mins interval)
 
 ```
 {
@@ -1271,29 +1276,22 @@ Now lets define the Query which can be used to collect alarms using POST operati
 }
 ```
 
-Using the query in **Example-3** lets perform POST operation on resource URI to retrieve the alarms.
+Using the query in **Example-3** lets perform POST operation to retrieve the specific type of alarms.
 
 ## POST Operation
-
-To fetch the alarms we need to perform POST operation using request method from the python requests library.
 
 Input parameters for POST operation
 
 -   endpoint (vmanage server ip address)
 -   resource or mountpoint represented by the URL
--   headers (Content-type and Accept are set to application/json)
 -   The query which defines rules on how to retrieve alarms is sent using the payload. 
 
-"verify=False" parameter is passed in POST operation because the SSL verification is disabled.
-
-The result of the POST operation is stored in the response variable. The json() method is called on the response object and the JSON format of the response is returned. "data" key in the JSON output contains the alarm details retrieved.
-
-Now let's have a look at the responses to POST operation
+Now let's have a look at the sample responses to POST operation
 
 ## Sample Responses
 
 -   Every alarm can be uniquely identified based on the uuid value which is associated with it. 
--   In case alarm is cleared, then uuid of alarm which has cleared it is associated with key  `cleared_by` and cleared time is associated with key `cleared_time`
+-   If alarm is **cleared**, then uuid of alarm which has cleared it is associated with key  `cleared_by` and cleared time is associated with key `cleared_time`
 
 ###   Example-1
 
@@ -1420,21 +1418,26 @@ Now let's have a look at the responses to POST operation
 
 `entry_time` and `cleared_time` values are in epoch format.
 
+**Prerequisites(Step-0)**
+
+- Launch mputty and select any of the Branch or DC router
+- Login details for Branch or DC routers is admin/admin
+- Run command `clear control connections` (for vEdge) or `clear sdwan control connections` (for cEdge) to trigger alarms
+which can be retrieved in next steps using APIs.
+
 **Step-1**
 
 <pre>
-On windows command prompt run the command <b>py -3.7 alarms_apis.py</b> to see all the options supported
-by the script
+On windows command prompt run the command <b>py -3.7 alarms_apis.py</b> to see all the options supported by the script
 </pre>
 
 **Sample Response**
 
 ```
-C:\Users\Administrator\Desktop\sdwan_prog_lab>
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 alarms_apis.py
 Usage: alarms_apis.py [OPTIONS] COMMAND [ARGS]...
 
-  Command line tool for deploying templates to CISCO SDWAN.
+  Command line tool for retrieving SD-WAN Alarms.
 
 Options:
   --help  Show this message and exit.
@@ -1485,7 +1488,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 **Step-3**
 
-Let's use the `Control_TLOC_Down` alarm tag to get all the Control TLOC Down alarms in the Overlay fabric.
+Let's use the `Control_TLOC_Down` alarm tag to get all the Control TLOC Down alarms in the Overlay fabric for last 24 hours
 
 Run the script `py -3.7 alarms_apis.py list-alarms --alarm_tag Control_TLOC_Down`
 
@@ -1541,7 +1544,7 @@ Using the API end point `/alarms/uuid/<uuid-value>` we can retrieve the details 
 
 Now let's run the script `py -3.7 alarms_apis.py alarm-details --uuid <uuid-value>` to retrieve the consumed events for a given alarm with provided uuid value.
 
-Copy the uuid-value from the output in **Step-3**
+Copy the uuid-value of any alarm from the output in **Step-3**
 
 **Sample Response**
 
@@ -1639,7 +1642,7 @@ In order to ack alarm, run the POST request to API end point `/alarms/markviewed
 ```
 **Sample Response**
 
-Use `--help` option to see the supported inputs specific command option
+Use `--help` option to see the supported inputs specific command option i.e. `py -3.7 alarms_apis.py ack-alarm --help`
 
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 alarms_apis.py ack-alarm --help
@@ -1656,6 +1659,9 @@ Options:
 C:\Users\Administrator\Desktop\sdwan_prog_lab>
 ```
 
+Now let's run the script `py -3.7 alarms_apis.py ack-alarm --uuids dfdd7822-6c19-49f3-844b-47402ff1d616` to mark the specific alarm as viewed or acknowledged. 
+
+**Sample Response**
 
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 alarms_apis.py ack-alarm --uuids dfdd7822-6c19-49f3-844b-47402ff1d616
@@ -1665,6 +1671,8 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 ```
 
 **Step-6**
+
+On Windows command prompt run the script `py -3.7 alarms_apis.py list-alarms --alarm_tag Control_TLOC_Down` to confirm that acknowledged alarm is now not seen in the response from vManage Alarms API.
 
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 alarms_apis.py list-alarms --alarm_tag Control_TLOC_Down
@@ -1683,7 +1691,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 
 ## Conclusion
 
-In this section we have learned how to build Query to diferent scenarios to retrieve the alarms and how to parse the alarms data i.e. recieved from the vManage.  
+In this section we have learned how to build Query for diferent scenarios to retrieve the alarms and how to parse the alarms data recieved from the vManage.  
 
 # Usecase-5: Webhook 
 
@@ -1769,7 +1777,7 @@ Steps to enable webhook notifications for pushing alarms to external systems.
 
 ![](images/admin_email.png)
 
-#	Notifications Dashboard 
+##	Notifications Dashboard 
 
 List of Notifications rules configured can be seen in section **Alarms -> Email Notifications**
 

@@ -75,7 +75,7 @@ base_url = "https://%s:%s/dataservice"%(vmanage_host, vmanage_port)
 
 @click.group()
 def cli():
-    """Command line tool for deploying templates to CISCO SDWAN.
+    """Command line tool for retrieving SD-WAN Alarms.
     """
     pass
 
