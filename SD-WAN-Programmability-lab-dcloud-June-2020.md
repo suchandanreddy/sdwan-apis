@@ -26,7 +26,6 @@ Table of Contents
       * [Conclusion](#conclusion)
    * [Usecase-2: Configuration APIs](#usecase-2-configuration-apis)
       * [Objective](#objective-1)
-      * [Resource URL Structure Components](#resource-url-structure-components-1)
       * [Templates list](#templates-list)
       * [Centralized Policies List](#centralized-policies-list)
       * [Activate Central Policy](#activate-central-policy)
@@ -546,7 +545,7 @@ Interfaces status for Device =  10.3.0.1
 **Step-5:**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1</b> to get<br>the number of OMP Peers, vSmart connections, BFD sessions for WAN edge router with system ip<br>address 10.3.0.1
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1</b> to get<br>the number of OMP Peers, vSmart connections, BFD sessions for WAN edge router with system ip address 10.3.0.1
 </pre>
 
 In `device-counters` option, we use resource URI `/device/counters?deviceId=<system-ip>` to get the number of OMP Peers, vSmart connections, BFD sessions.
@@ -628,19 +627,11 @@ In this section we have learned how to collect list of devices and below monitor
 
 ## Objective 
 
-How to retrieve list of templates, policies and modify preferred color in App aware route policy.
+How to retrieve list of templates and policies, activate/deactivate a central policy, edit preferred color in specific Application Aware Routing Policy sequence.
 
-## Resource URL Structure Components
+## Configuration APIs
 
-## Templates list
-
-**Step-1:**
-
-<pre>
-On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py template-list</b> to retrieve the list<br>of device templates defined.
-</pre> 
-
-In `template-list` option, we use resource URI `/template/device` to fetch the list of templates.
+In this section we are going to use the CLI based python application script `vmanage_config_apis.py`. Run the command `py -3.7 vmanage_config_apis.py` to see all the options supported by the python application script.
 
 **Sample Response**
 
@@ -648,8 +639,7 @@ In `template-list` option, we use resource URI `/template/device` to fetch the l
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py
 Usage: vmanage_config_apis.py [OPTIONS] COMMAND [ARGS]...
 
-  Command line tool for monitoring Application Aware Routing
-  Statistics(Latency/Loss/Jitter/vQoE Score).
+  Command line tool for vManage Templates and Policy Configuration APIs.
 
 Options:
   --help  Show this message and exit.
@@ -662,6 +652,17 @@ Commands:
   template-list          Retrieve and return templates list.
 
 ```
+
+## Templates list
+
+**Step-1:**
+
+<pre>
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py template-list</b> to retrieve the list<br>of device templates defined.
+</pre> 
+
+In `template-list` option, we use resource URI `/template/device` to fetch the list of templates.
+
 
 **Sample Response**
 
@@ -732,7 +733,7 @@ Retrieving the Centralized Policies available.
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py activate-policy --name MultiTopologyPlusAppRoute</b> to activate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py activate-policy --name MultiTopologyPlusAppRoute</b><br>to activate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
 </pre>
 
 In `activate-policy` option, we use resource URI `/template/policy/vsmart/activate/<policy-uuid>?confirm=true` to activate a centralized policy.
@@ -748,30 +749,10 @@ Successfully activated vSmart Policy MultiTopologyPlusAppRoute
 
 ## Modify Preferred Color in App Route Policy
 
-### Code Components
-
-Please note that this is a FYI section which includes code snippets and structure of command `py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10 --seq_name DSCP46 --pref_color public-internet` in CLI based python application script **vmanage_config_apis.py**. 
-
-<details>
-  <summary>Click to expand!</summary>
-
-### Code snip
-
-```
-```
-
-### Code snip 
-
-```
-```
-
-</details>
-<br>
-
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10 --seq_name DSCP46 --pref_color public-internet</b> to update the preferred color to `public-internet` in sequence `DSCP46` of app route policy `AppRoutePolicyVPN10`
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10<br>--seq_name DSCP46 --pref_color public-internet</b> to update the preferred color to `public-internet` in sequence `DSCP46` of app<br>route policy `AppRoutePolicyVPN10`
 </pre>
 
 **Sample Response**
@@ -791,7 +772,7 @@ Successfully updated Preferred Color to public-internet in sequence DSCP46 of po
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py deactivate-policy --name MultiTopologyPlusAppRoute</b> to deactivate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py deactivate-policy --name MultiTopologyPlusAppRoute</b><br>to deactivate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
 </pre>
 
 In `deactivate-policy` option, we use resource URI `/template/policy/vsmart/deactivate/<policy-uuid>?confirm=true` to deactivate a centralized policy.
@@ -806,6 +787,12 @@ Successfully deactivated vSmart Policy MultiTopologyPlusAppRoute
 ```
 
 ## Conclusion
+
+In this section we have learnt how to use vManage APIs to 
+- Retrieve the list of templates and policies
+- Activate Centralized policy
+- Update Preferred Color in particular App aware route policy sequence
+- Deactivate Centralized policy
 
 
 #	Usecase-3: App route statistics (Latency/Loss/Jitter)

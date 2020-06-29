@@ -132,7 +132,7 @@ base_url = "https://%s:%s/dataservice"%(vmanage_host, vmanage_port)
 
 @click.group()
 def cli():
-    """Command line tool for monitoring Application Aware Routing Statistics(Latency/Loss/Jitter/vQoE Score).
+    """Command line tool for vManage Templates and Policy Configuration APIs.
     """
     pass
 
