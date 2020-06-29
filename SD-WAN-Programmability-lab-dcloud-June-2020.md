@@ -97,7 +97,7 @@ Table of Contents
 
 | Component | Software Version |
 | ------ | ------ |
-| vManage  | 20.1.1 |
+| vManage, vSmart and vBond  | 20.1.1 |
 | cEdge (CSR1000v) | 17.2.1 |
 | vEdge (vedge-cloud) | 20.1.1 |
 
