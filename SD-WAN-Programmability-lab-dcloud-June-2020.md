@@ -631,12 +631,9 @@ In this section we have learned how to collect list of devices and below monitor
 
 ## Objective 
 
-How to retrieve list of templates and attach device templates
+How to retrieve list of templates, policies and modify preferred color in App aware route policy.
 
 ## Resource URL Structure Components
-
-`https://<vmanage-ip:port>/dataservice/template/feature/`
-
 
 ## Templates list
 
@@ -647,6 +644,27 @@ On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py templat
 </pre> 
 
 In `template-list` option, we use resource URI `/template/device` to fetch the list of templates.
+
+**Sample Response**
+
+```
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py
+Usage: vmanage_config_apis.py [OPTIONS] COMMAND [ARGS]...
+
+  Command line tool for monitoring Application Aware Routing
+  Statistics(Latency/Loss/Jitter/vQoE Score).
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  activate-policy        Activate centralized policy.
+  approute-modify-color  Modify the Preferred Color in existing App Aware...
+  deactivate-policy      Deactivate centralized policy.
+  policy-list            Retrieve and return centralized policies list.
+  template-list          Retrieve and return templates list.
+
+```
 
 **Sample Response**
 
@@ -691,6 +709,25 @@ In `policy-list` option, we use resource URI `/template/policy/vsmart` to fetch 
 **Sample Response**
 
 ```
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py policy-list
+Retrieving the Centralized Policies available.
+╒══════════════════════════════╤═══════════════╤══════════════════════════════════════╤═══════════════════╕
+│ Policy Name                  │ Policy Type   │ Policy ID                            │ Active/Inactive   │
+╞══════════════════════════════╪═══════════════╪══════════════════════════════════════╪═══════════════════╡
+│ StrictHub-n-Spoke            │ feature       │ a8205140-92d9-4688-a127-c70d5f1b93a5 │ False             │
+├──────────────────────────────┼───────────────┼──────────────────────────────────────┼───────────────────┤
+│ MultiTopologyPolicy          │ feature       │ 45f0b251-bce6-4b6b-bb8c-de7dbf13ea0f │ False             │
+├──────────────────────────────┼───────────────┼──────────────────────────────────────┼───────────────────┤
+│ MultiTopologyPlusFWInsertion │ feature       │ b33477d1-1ebc-4080-ba44-b89dbf14fef7 │ False             │
+├──────────────────────────────┼───────────────┼──────────────────────────────────────┼───────────────────┤
+│ MultiTopologyPlusACL         │ feature       │ 7f156d32-537d-493f-9a7d-53d9e1f05a19 │ False             │
+├──────────────────────────────┼───────────────┼──────────────────────────────────────┼───────────────────┤
+│ MultiTopologyPlusAppRoute    │ feature       │ 12df3ed9-6b1f-4b0a-91a2-377cefb8039f │ False             │
+├──────────────────────────────┼───────────────┼──────────────────────────────────────┼───────────────────┤
+│ cflowd_policy                │ cli           │ 1c865c35-05ac-43a7-a6ee-6328138cd1c4 │ False             │
+├──────────────────────────────┼───────────────┼──────────────────────────────────────┼───────────────────┤
+│ Hub-Spoke-Policy-PCI         │ feature       │ 67b2d453-671f-4eaf-b79a-d1c4c0069f1a │ False             │
+╘══════════════════════════════╧═══════════════╧══════════════════════════════════════╧═══════════════════╛
 ```
 
 ## Activate Centralized Policy
@@ -706,6 +743,10 @@ In `activate-policy` option, we use resource URI `/template/policy/vsmart/activa
 **Sample Response**
 
 ```
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py activate-policy --name MultiTopologyPlusAppRoute
+Policy UUID for MultiTopologyPlusAppRoute is 12df3ed9-6b1f-4b0a-91a2-377cefb8039f
+
+Successfully activated vSmart Policy MultiTopologyPlusAppRoute
 ```
 
 ## Modify Preferred Color in App Route Policy
@@ -739,6 +780,13 @@ On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py approut
 **Sample Response**
 
 ```
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10 --seq_name DSCP46 --pref_color public-internet
+
+Retrieved app aware route policy definition for AppRoutePolicyVPN10
+
+Master templates affected: ['55eb96ec-237d-4170-8841-3321a04e01a7']
+
+Successfully updated Preferred Color to public-internet in sequence DSCP46 of policy AppRoutePolicyVPN10
 ```
 
 ## Deactivate Centralized Policy
@@ -754,6 +802,10 @@ In `deactivate-policy` option, we use resource URI `/template/policy/vsmart/deac
 **Sample Response**
 
 ```
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py deactivate-policy --name MultiTopologyPlusAppRoute
+Policy UUID for MultiTopologyPlusAppRoute is 12df3ed9-6b1f-4b0a-91a2-377cefb8039f
+
+Successfully deactivated vSmart Policy MultiTopologyPlusAppRoute
 ```
 
 ## Conclusion
