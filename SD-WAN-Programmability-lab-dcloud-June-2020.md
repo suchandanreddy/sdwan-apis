@@ -160,13 +160,13 @@ Provide **C:\Users\Administrator\Desktop** as path and select Extract option.
 
 # Setup Instructions:
 
-Launch **Command Prompt** from Windows VM Desktop using below shortcut
+Launch **Command Prompt** from Windows VM Desktop using below shortcut.
 
 ![](images/command-prompt.png)
 
 **Step-1**
 
-Set `PATH` env variable in the cmd prompt so that we can run pip3 in the cmd to install all the packages needed for python scripts.
+Set `PATH` env variable in the cmd prompt so that we can run **pip3** to install all the packages needed for python scripts.
 
 Command to set PATH env for current session:
 
@@ -239,7 +239,6 @@ Please note that this is a FYI section which includes code snippets and structur
   <summary>Click to expand!</summary>
 
 -	Python function that does login and authenticate with vManage instance
--	Python functions to perform GET and POST operations on REST APIs
 
 In `vmanage_apis.py` code , we have defined a class `Authentication` which has methods `get_jsessionid()` and `get_token()` 
 
@@ -247,7 +246,7 @@ In `vmanage_apis.py` code , we have defined a class `Authentication` which has m
 
 Let's start by going through get_jsessionid() function which is used to retrieve authenticated session cookie which is used by vManage to validate subsequent API calls. 
 
-Input parameters for get_jsessionid function are
+Input parameters for **get_jsessionid()** are
 
 -  vmanage_host
 -  vmanage_port
@@ -256,9 +255,9 @@ Input parameters for get_jsessionid function are
 
 On successful POST operation we get JSESSIONID or cookie which is used in future API calls by client. By nature REST API is stateless so we use JSESSIONID for doing session tracking.
 
-After session cookie is recieved, starting from vManage 19.2 code, we need to run GET request to API endpoint `/dataservice/client/token` to retrieve the Session Token.  
+After **Session Cookie** is recieved, starting from vManage 19.2 code, we need to run GET request to API endpoint `/dataservice/client/token` to retrieve the **Session Token**.  
 
-Input parameters for get_token function are
+Input parameters for **get_token()** are
 
 - vmanage_host
 - vmanage_port
@@ -282,8 +281,7 @@ class Authentication:
             jsessionid = cookies.split(";")
             return(jsessionid[0])
         except:
-            if logger is not None:
-                logger.error("No valid JSESSION ID returned\n")
+            print("No valid JSESSION ID returned\n")
             exit()
        
     @staticmethod
@@ -311,9 +309,9 @@ else:
 
 **Note:**
 
-API requests header for subsequent GET/POST/PUT/DELETE are
-- For vManage pre-19.2  - Session Cookie (jsessionid)
-- For vManage post-19.2 - Session Cooke (jsessionid) and Token
+API requests header for GET/POST/PUT/DELETE are
+- For vManage **pre-19.2**  - Session Cookie (jsessionid)
+- For vManage **post-19.2** - Session Cooke (jsessionid) and Token
 
 <br>
 
@@ -331,15 +329,15 @@ Resource URL to retrieve the inventory from the vmanage is `https://<vmanage-ip:
 | Parameters  | Details to scope, filter, or clarify a request. Often optional|
 
 Example for Parameters
-  -   URL : https://<vmanage-ip:port>/dataservice/device/bfd/state/device?deviceId=1.1.1.7 
-  -   "?deviceId=1.1.1.7" is used to filter out bfd state for device with system-ip/deviceId = 1.1.1.7
+  -   URL : `https://<vmanage-ip:port>/dataservice/device/bfd/state/device?deviceId=1.1.1.7`
+  -   "?deviceId=1.1.1.7" is used to filter out bfd state for device with **system-ip/deviceId** = 1.1.1.7
 
 **Note:**  All REST API calls to vmanage contains the root "/dataservice".
 	
 **Step-1:**
 
 <pre>
-Open Windows Command prompt and execute the command <b>py -3.7 vmanage_apis.py</b> to see the list of<br>available options in this CLI based python application script. 
+Open Windows Command prompt and execute the command <b>py -3.7 vmanage_apis.py</b> to see the list of available options<br>in this CLI based python application script. 
 </pre>
 
 **Sample Response**
@@ -373,12 +371,12 @@ Resource URI for this is "/device" so, URL to fetch devices is  `https://vmanage
 
 Once authentication is done with the vManage using `get_jessiond()` and `get_token()` functions, we will run the GET request to retrieve list of all the devices in the fabric and store the JSON data that is returned by the API in the response variable.
 
-Now we extract the `data` portion of the JSON using `response.json()['data']` and store it in a variable called items. The items variable at this point contains lot of information about all the devices in the fabric.
+Now we extract the `data` portion of the JSON using `response.json()['data']` and create a table with required fields in response.
  
 **Step-2:** 	
 
 <pre>
-On windows command prompt, run the command <b>py -3.7 vmanage_apis.py device-list</b> to retrieve the list of devices and print information such as Host-name, Site-ID, system-ip etc.. in table format.
+On windows command prompt, run the command <b>py -3.7 vmanage_apis.py device-list</b> to retrieve the list of devices<br>and print information such as Host-name, Site-ID, system-ip etc.. in table format.
 </pre>
    
 **Sample Response**  
@@ -428,7 +426,7 @@ Usage: vmanage_apis.py control-status [OPTIONS]
   Retrieve and return information about Control status of network device in
   SD-WAN fabric
 
-  Example command:     ./vmanage_apis.py control-status
+  Example command:     ./vmanage_apis.py control-status --system_ip 10.3.0.1
 
 Options:
   --system_ip TEXT  System IP address of the device
@@ -439,7 +437,7 @@ Options:
 **Step-3:** 
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py control-status --system_ip 10.3.0.1</b><br>to get the control connections status for WAN edge router with system ip address 10.3.0.1
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py control-status --system_ip 10.3.0.1</b> to get<br>the control connections status for WAN edge router with system ip address 10.3.0.1
 </pre>
 
 In `control-status` option, we use resource URI `/device/control/synced/connections?deviceId=<system-ip>` to fetch the status of control connections. 
@@ -473,7 +471,7 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 **Step-4:** 
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py interface-status --system_ip 10.1.0.1</b><br>to get the interfaces status for WAN edge router with system ip address 10.1.0.1
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py interface-status --system_ip 10.1.0.1</b> to get<br>the interfaces status for WAN edge router with system ip address 10.1.0.1
 </pre>
 
 In `interface-status` option, we use resource URI `device/interface/synced?deviceId=<system-ip>` to fetch the interface status of one such network device in fabric.
@@ -483,7 +481,7 @@ In `interface-status` option, we use resource URI `device/interface/synced?devic
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.1.0.1
 
-Retrieving the interface Status
+Retrieving the Interface Status
 
 Interfaces status for Device =  10.1.0.1
 ╒══════════════════╤═════════════════╤══════════╤══════════════════════╕
@@ -507,7 +505,7 @@ Interfaces status for Device =  10.1.0.1
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py interface-status --system_ip 10.3.0.1
 
-Retrieving the interface Status
+Retrieving the Interface Status
 
 Interfaces status for Device =  10.3.0.1
 ╒═══════════════════╤══════════════╤══════════╤══════════════════════╕
@@ -548,7 +546,7 @@ Interfaces status for Device =  10.3.0.1
 **Step-5:**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1</b><br>to get the number of OMP Peers, Vsmart connections, BFD sessions for WAN edge router with system ip<br>address 10.3.0.1
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py device-counters --system_ip 10.3.0.1</b> to get<br>the number of OMP Peers, vSmart connections, BFD sessions for WAN edge router with system ip<br>address 10.3.0.1
 </pre>
 
 In `device-counters` option, we use resource URI `/device/counters?deviceId=<system-ip>` to get the number of OMP Peers, vSmart connections, BFD sessions.
@@ -561,7 +559,7 @@ Retrieving the Device Counters
 
 Device Counters for device =  10.3.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
-│   OMP Peers Up │   OMP Peers Down │   Vsmart connections │   BFD Sessions Up │   BFD Sessions Down │
+│   OMP Peers Up │   OMP Peers Down │   vSmart connections │   BFD Sessions Up │   BFD Sessions Down │
 ╞════════════════╪══════════════════╪══════════════════════╪═══════════════════╪═════════════════════╡
 │              2 │                0 │                    4 │                 4 │                   0 │
 ╘════════════════╧══════════════════╧══════════════════════╧═══════════════════╧═════════════════════╛
@@ -573,7 +571,7 @@ Retrieving the Device Counters
 
 Device Counters for device =  10.1.0.1
 ╒════════════════╤══════════════════╤══════════════════════╤═══════════════════╤═════════════════════╕
-│   OMP Peers Up │   OMP Peers Down │   Vsmart connections │   BFD Sessions Up │   BFD Sessions Down │
+│   OMP Peers Up │   OMP Peers Down │   vSmart connections │   BFD Sessions Up │   BFD Sessions Down │
 ╞════════════════╪══════════════════╪══════════════════════╪═══════════════════╪═════════════════════╡
 │              2 │                0 │                    4 │                 4 │                   0 │
 ╘════════════════╧══════════════════╧══════════════════════╧═══════════════════╧═════════════════════╛
@@ -584,7 +582,7 @@ Device Counters for device =  10.1.0.1
 **Step-6:** 
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py system-status --system_ip 10.1.0.1</b><br>to get the uptime, version, memory and CPU usage information for WAN edge router with system ip<br>address 10.1.0.1
+On windows command prompt, run command <b>py -3.7 vmanage_apis.py system-status --system_ip 10.1.0.1</b> to get<br>the uptime, version, memory and CPU usage information for WAN edge router with system ip address 10.1.0.1
 </pre>
 
 In `system-status` option, we use resource URI `/device/system/status?deviceId=<system-ip>` to fetch the system status of one such network device in fabric.

@@ -110,7 +110,7 @@ def system_status(system_ip):
     """ Retrieve and return information about System status of network device in SD-WAN fabric
 
         Example command:
-            ./vmanage_apis.py system-status --system_ip 
+            ./vmanage_apis.py system-status --system_ip 10.3.0.1
     """
 
     click.secho("\nRetrieving the System Status")
@@ -145,10 +145,10 @@ def interface_status(system_ip):
     """ Retrieve and return information about Interface status of network device in SD-WAN fabric
 
         Example command:
-            ./vmanage_apis.py interface-status
+            ./vmanage_apis.py interface-status --system_ip 10.3.0.1
     """
 
-    click.secho("\nRetrieving the interface Status")
+    click.secho("\nRetrieving the Interface Status")
 
     url = base_url + "/device/interface/synced?deviceId={0}".format(system_ip)
 
@@ -181,7 +181,7 @@ def control_status(system_ip):
     """ Retrieve and return information about Control status of network device in SD-WAN fabric
 
         Example command:
-            ./vmanage_apis.py control-status
+            ./vmanage_apis.py control-status --system_ip 10.3.0.1
     """
 
     click.secho("Retrieving the Control Status")
@@ -216,7 +216,7 @@ def device_counters(system_ip):
     """ Retrieve information about Device Counters of network device in SD-WAN fabric
 
         Example command:
-            ./vmanage_apis.py device-counters
+            ./vmanage_apis.py device-counters --system_ip 10.3.0.1
     """
 
     click.secho("Retrieving the Device Counters")
@@ -233,7 +233,7 @@ def device_counters(system_ip):
     print("\nDevice Counters for device = ",system_ip)
 
 
-    headers = ["OMP Peers Up", "OMP Peers Down", "Vsmart connections", "BFD Sessions Up", "BFD Sessions Down"]
+    headers = ["OMP Peers Up", "OMP Peers Down", "vSmart connections", "BFD Sessions Up", "BFD Sessions Down"]
     table = list()
 
     for item in items:
