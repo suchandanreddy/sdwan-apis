@@ -3,5 +3,4 @@ webhooks/webhook.py
 venv/*
 log/*
 code_samples_june_2020/cert-expiry-alarms.txt
-code_samples_june_2020/vmanage_apis.py
 update-prefix-list.py

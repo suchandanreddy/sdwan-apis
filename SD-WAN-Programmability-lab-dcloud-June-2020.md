@@ -643,7 +643,7 @@ How to retrieve list of templates and attach device templates
 **Step-1:**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py template-list</b> to retrieve the list<br>of device templates defined.
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py template-list</b> to retrieve the list<br>of device templates defined.
 </pre> 
 
 In `template-list` option, we use resource URI `/template/device` to fetch the list of templates.
@@ -651,7 +651,7 @@ In `template-list` option, we use resource URI `/template/device` to fetch the l
 **Sample Response**
 
 ```
-C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_apis.py template-list
+C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 vmanage_config_apis.py template-list
 Retrieving the templates available.
 ╒═══════════════════════════════════╤═════════════════════╤══════════════════════════════════════╤════════════════════╕
 │ Template Name                     │ Device Type         │ Template ID                          │   Attached devices │
@@ -683,25 +683,25 @@ C:\Users\Administrator\Desktop\sdwan_prog_lab>
 **Step-1:**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py central-policies-list</b> to retrieve the list<br>of centralized policies defined.
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py policy-list</b> to retrieve the list<br>of centralized policies defined.
 </pre> 
 
-In `central-policies-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
+In `policy-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
 
 **Sample Response**
 
 ```
 ```
 
-## Activate Central Policy
+## Activate Centralized Policy
 
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py activate-policy --name MultiTopologyPlusAppRoute</b> to activate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py activate-policy --name MultiTopologyPlusAppRoute</b> to activate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
 </pre>
 
-In `central-policies-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
+In `activate-policy` option, we use resource URI `/template/policy/vsmart/activate/<policy-uuid>?confirm=true` to activate a centralized policy.
 
 **Sample Response**
 
@@ -712,7 +712,7 @@ In `central-policies-list` option, we use resource URI `/template/policy/vsmart`
 
 ### Code Components
 
-Please note that this is a FYI section which includes code snippets and structure of command `` in CLI based python application script **vmanage_apis.py**. 
+Please note that this is a FYI section which includes code snippets and structure of command `py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10 --seq_name DSCP46 --pref_color public-internet` in CLI based python application script **vmanage_config_apis.py**. 
 
 <details>
   <summary>Click to expand!</summary>
@@ -733,10 +733,23 @@ Please note that this is a FYI section which includes code snippets and structur
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_apis.py modify-policy --name MultiTopologyPlusAppRoute --pref-color public-internet</b> to retrieve the list<br>of device templates defined.
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10 --seq_name DSCP46 --pref_color public-internet</b> to update the preferred color to `public-internet` in sequence `DSCP46` of app route policy `AppRoutePolicyVPN10`
 </pre>
 
-In `central-policies-list` option, we use resource URI `/template/policy/vsmart` to fetch the list of centralized policies.
+**Sample Response**
+
+```
+```
+
+## Deactivate Centralized Policy
+
+**Step-1**
+
+<pre>
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py deactivate-policy --name MultiTopologyPlusAppRoute</b> to deactivate a centralized(vSmart) policy with name MultiTopologyPlusAppRoute
+</pre>
+
+In `deactivate-policy` option, we use resource URI `/template/policy/vsmart/deactivate/<policy-uuid>?confirm=true` to deactivate a centralized policy.
 
 **Sample Response**
 
