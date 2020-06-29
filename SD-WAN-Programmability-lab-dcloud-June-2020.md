@@ -6,8 +6,6 @@ SD-WAN Programmability Lab Guide
 Table of Contents
 =================
 
-   * [SD-WAN Programmability Lab Guide](#sd-wan-programmability-lab-guide)
-   * [Table of Contents](#table-of-contents)
    * [Introduction](#introduction)
       * [vManage REST APIs](#vmanage-rest-apis)
       * [API Categories](#api-categories)
