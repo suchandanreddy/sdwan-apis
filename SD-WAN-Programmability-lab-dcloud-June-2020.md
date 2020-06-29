@@ -752,7 +752,7 @@ Successfully activated vSmart Policy MultiTopologyPlusAppRoute
 **Step-1**
 
 <pre>
-On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10<br>--seq_name DSCP46 --pref_color public-internet</b> to update the preferred color to `public-internet` in sequence `DSCP46` of app<br>route policy `AppRoutePolicyVPN10`
+On windows command prompt, run command <b>py -3.7 vmanage_config_apis.py approute-modify-color --name AppRoutePolicyVPN10<br>--seq_name DSCP46 --pref_color public-internet</b> to update the preferred color to <b>public-internet</b> in sequence <b>DSCP46</b><br>of app route policy <b>AppRoutePolicyVPN10</b>
 </pre>
 
 **Sample Response**
