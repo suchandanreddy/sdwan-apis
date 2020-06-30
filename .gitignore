@@ -3,4 +3,7 @@ webhooks/webhook.py
 venv/*
 log/*
 code_samples_june_2020/cert-expiry-alarms.txt
+code_samples_june_2020/dcloud-sevt.rdp
+code_samples_june_2020/cleanup.sh
+code_samplese_june_2020/cleanup-webhooks.py
 update-prefix-list.py
