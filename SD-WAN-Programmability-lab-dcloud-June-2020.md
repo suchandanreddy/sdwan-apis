@@ -1127,9 +1127,9 @@ On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py app
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 monitor-app-route-stats.py approute-report --hub_list_file hub_list.yaml
 Please enter start date(YYYY-MM-DD): 2020-06-27
-Please enter end date(YYYY-MM-DD): 2020-06-30
+Please enter end date(YYYY-MM-DD): 2020-06-29
 
-Created report of Average App Route statistics for Tunnels between Hub routers and Spokes for 2020-06-27 and 2020-06-30
+Created report of Average App Route statistics for Tunnels between Hub routers and Spokes for 2020-06-27 and 2020-06-29
 ```
 
 Now Launch Google Chrome and use any of the online excel viewer to see the excel sheet or use the CSVviewer application on Windows VM(Jumphost) to view the CSV file.
@@ -1435,9 +1435,12 @@ which can be retrieved in next steps using APIs.
 
 ![](images/clear-control-cedge.png)
 
-**Check on Alarm is triggered on vManage**
+**Confirm Triggered Alarm is received on vManage from edge routers**
 
-Go to section Monitor -> Alarms and  see if the **Control TLOC Down/Up** alarm is triggered.
+- Go to section **Monitor -> Alarms** and confirm if the **Control TLOC Down/Up** alarm is reported so that we can retrieve
+these alarm details using APIs  in the further steps. 
+
+![](images/control-alarms.png)
 
 **Step-1**
 
