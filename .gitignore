@@ -5,5 +5,7 @@ log/*
 code_samples_june_2020/cert-expiry-alarms.txt
 code_samples_june_2020/dcloud-sevt.rdp
 code_samples_june_2020/cleanup.sh
-code_samplese_june_2020/cleanup-webhooks.py
+code_samples_june_2020/cleanup-webhooks.py
+code_samples_june_2020/Tunnel*
+code_samples_june_2020/temp.json
 update-prefix-list.py
