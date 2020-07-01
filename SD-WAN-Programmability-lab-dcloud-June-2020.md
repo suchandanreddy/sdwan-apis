@@ -1468,7 +1468,7 @@ Commands:
 
 **Step-2**
 
-Run the script with `list-alarm-tags` option i.e. `py -3.7 alarms_apis.py list-alarms-tags`  to see all the alarm names/tags supported.
+Run the script with `list-alarms-tags` option i.e. `py -3.7 alarms_apis.py list-alarms-tags`  to see all the alarm names/tags supported.
 
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 alarms_apis.py list-alarms-tags
