@@ -1126,13 +1126,13 @@ On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py app
 
 ```
 C:\Users\Administrator\Desktop\sdwan_prog_lab>py -3.7 monitor-app-route-stats.py approute-report --hub_list_file hub_list.yaml
-Please enter start date(YYYY-MM-DD): 2020-06-27
-Please enter end date(YYYY-MM-DD): 2020-06-29
+Please enter start date(YYYY-MM-DD): 2020-07-11
+Please enter end date(YYYY-MM-DD): 2020-07-13
 
-Created report of Average App Route statistics for Tunnels between Hub routers and Spokes for 2020-06-27 and 2020-06-29
+Created report of Average App Route statistics for Tunnels between Hub routers and Spokes for 2020-07-11 and 2020-07-13
 ```
 
-Now Launch Google Chrome and use any of the online excel viewer to see the excel sheet or use the CSVviewer application on Windows VM(Jumphost) to view the CSV file.
+Now Launch Google Chrome and use any of the online excel viewer to see the excel sheet or use the CSVviewer or Notepad application on Windows VM(Jumphost) to view the CSV file.
 
 ## Conclusion 
 
