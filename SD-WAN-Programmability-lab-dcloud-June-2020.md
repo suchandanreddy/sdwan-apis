@@ -839,7 +839,7 @@ Now let’s start using the python script to fetch the app route statistics by u
 
 <pre>
 On windows command prompt, run command <b>py -3.7 monitor-app-route-stats.py</b> to get the list of options available
-in the **monitor-app-route-stats.py** CLI based python application script.
+in the <b>monitor-app-route-stats.py</b> CLI based python application script.
 </pre>
 
 **Sample Response**
