@@ -37,7 +37,7 @@ class rest_api_lib:
 
         base_url = 'https://%s:%s/'%(vmanage_host,vmanage_port)
 
-        login_action = '/j_security_check'
+        login_action = 'j_security_check'
 
         #Format data for loginForm
         login_data = {'j_username' : username, 'j_password' : password}
