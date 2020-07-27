@@ -55,6 +55,16 @@ class rest_api_lib:
             print ("Login Failed")
             exit(0)
 
+        login_token  = sess.get(url=token_url, verify=False)
+
+        if login_token.status_code == 200:
+            if b'<html>' in login_token.content:
+                print ("Login Token Failed")
+                exit(0)
+
+        #update token to session headers
+        sess.headers['X-XSRF-TOKEN'] = login_token.content
+
         self.session[vmanage_host] = sess
 
     def get_request(self, mount_point):
