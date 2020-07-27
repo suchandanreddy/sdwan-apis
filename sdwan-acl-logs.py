@@ -45,6 +45,9 @@ class rest_api_lib:
         #URL for posting login data
         login_url = base_url + login_action
         
+        #URL for retrieving client token
+        token_url = base_url + 'dataservice/client/token'
+        
         sess = requests.session()
 
         #If the vmanage has a certificate signed by a trusted authority change verify to True
