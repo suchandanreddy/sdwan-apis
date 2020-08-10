@@ -37,13 +37,16 @@ class rest_api_lib:
 
         base_url = 'https://%s:%s/'%(vmanage_host,vmanage_port)
 
-        login_action = '/j_security_check'
+        login_action = 'j_security_check'
 
         #Format data for loginForm
         login_data = {'j_username' : username, 'j_password' : password}
 
         #URL for posting login data
         login_url = base_url + login_action
+        
+        #URL for retrieving client token
+        token_url = base_url + 'dataservice/client/token'
         
         sess = requests.session()
 
@@ -54,6 +57,16 @@ class rest_api_lib:
         if b'<html>' in login_response.content:
             print ("Login Failed")
             exit(0)
+
+        login_token  = sess.get(url=token_url, verify=False)
+
+        if login_token.status_code == 200:
+            if b'<html>' in login_token.content:
+                print ("Login Token Failed")
+                exit(0)
+
+        #update token to session headers
+        sess.headers['X-XSRF-TOKEN'] = login_token.content
 
         self.session[vmanage_host] = sess
 
