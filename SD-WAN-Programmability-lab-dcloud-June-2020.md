@@ -146,7 +146,7 @@ This will place you onto “WKST1” which is the launching point for all lab ta
 
 - Once you are on windows machine, launch the Google Chrome browser. 
 
-- Open the box link `cs.co/sevt-lab-2020` in google chrome browser and click on download. 
+- Please check with **Instructor** for the box link with all the scripts and download the scripts from the box folder as shown below. 
 
 ![download](images/download-new.png) 
 
