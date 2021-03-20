@@ -6,7 +6,7 @@ Flask==1.0.2
 future==0.17.1
 idna==2.8
 itsdangerous==1.1.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 requests==2.21.0
 requests-toolbelt==0.9.1
