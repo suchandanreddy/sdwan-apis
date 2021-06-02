@@ -19,5 +19,5 @@ PyYAML==5.3.1
 requests==2.24.0
 six==1.15.0
 tabulate==0.8.7
-urllib3==1.25.9
+urllib3==1.26.5
 Werkzeug==1.0.1
