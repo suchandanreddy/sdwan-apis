@@ -1,0 +1,8093 @@
+{
+	"info": {
+		"_postman_id": "d5330441-db08-40bd-b7a4-63e222dbecc2",
+		"name": "Cisco-SD-WAN",
+		"description": "This public repo contains a POSTMAN environment and collection that can be used to interact with the Cisco SD-WAN vManage REST API. The environment is pre-configured to access the Cisco DevNet Always On Sandbox for SD-WAN fabric. You can edit the variables in the environment to point to your own vManage instance. The collection contains REST API calls to authenticate, get a list of devices that are part of the SD-WAN fabric, and get device status, counters, and interface statistics for all the interfaces in the fabric. Feel free to modify them as you see fit and to add more calls to the collection. To use the Cisco SD-WAN sandbox, and search for SD-WAN sandboxes.https://developer.cisco.com/sandbox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Authentication",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "j_username",
+									"value": "{{username}}",
+									"type": "text"
+								},
+								{
+									"key": "j_password",
+									"value": "{{password}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/j_security_check",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"j_security_check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response does not contain HTML tag\", function () {",
+									"    pm.expect(pm.response.text()).to.not.include(\"<html>\")",
+									"    pm.environment.set(\"X-XSRF-TOKEN\", responseBody);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/client/token",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"client",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/logout?nocache=",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"logout"
+							],
+							"query": [
+								{
+									"key": "nocache",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. SD-WAN Fabric Devices",
+			"item": [
+				{
+					"name": "Fabric Devices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/device",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"device"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Devices Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/device/monitor",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"device",
+								"monitor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Counters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/device/counters",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"device",
+								"counters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Interface statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/statistics/interface",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"statistics",
+								"interface"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. SD-WAN Device Template",
+			"item": [
+				{
+					"name": "Template Feature",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/feature",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"feature"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Template Feature Type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/feature/types",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"feature",
+								"types"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. SD-WAN Device Policy",
+			"item": [
+				{
+					"name": "vEdge Template Policy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/policy/vedge/devices",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"policy",
+								"vedge",
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Policy List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/policy/list",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"policy",
+								"list"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Bulk State",
+			"item": [
+				{
+					"name": "BFD Sessions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/BFDSessions?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"BFDSessions"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BGP Neighbor",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/BGPNeighbor?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"BGPNeighbor"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control Connection",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/ControlConnection?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"ControlConnection"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control Local Property",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/ControlLocalProperty?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"ControlLocalProperty"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Control WAN Interface",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/ControlWanInterface?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"ControlWanInterface"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hardware Alarms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/HardwareAlarms?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"HardwareAlarms"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hardware Environment",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/HardwareEnvironment?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"HardwareEnvironment"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hardware Inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/HardwareInventory?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"HardwareInventory"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Interface",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/Interface",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"Interface"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CEdge Interface",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/CEdgeInterface",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"CEdgeInterface"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OMP Peers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/OMPPeer?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"OMPPeer"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/SystemStatus?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"SystemStatus"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "System",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/state/System?count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"state",
+								"System"
+							],
+							"query": [
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Bulk Statistics (min 20min period)",
+			"item": [
+				{
+					"name": "Alarms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/alarm?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"alarm"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Application-Aware Routing Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/approutestatsstatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"approutestatsstatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Audit Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/auditlog?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"auditlog"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bridge Interfaces",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/bridgeinterfacestatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"bridgeinterfacestatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bridge MAC Addresses",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/bridgemacstatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"bridgemacstatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CloudExpress Service",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/cloudxstatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"cloudxstatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Configuration",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/deviceconfiguration?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"deviceconfiguration"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device Events",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/deviceevents?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"deviceevents"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Device System Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/devicesystemstatusstatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"devicesystemstatusstatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DPI",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/dpistatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"dpistatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flow Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/flowlogstatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"flowlogstatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Interfaces",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/interfacestatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"interfacestatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WLAN Clients",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/wlanclientinfostatistics?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"wlanclientinfostatistics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "?urlf?",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/urlf?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"urlf"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "?fwall?",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/fwall?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"fwall"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "?umbrella?",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/umbrella?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"umbrella"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "?ipsalert?",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/ipsalert?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"ipsalert"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "?speedtest?",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/data/device/statistics/speedtest?startDate={{startDate}}&endDate={{endDate}}&timeZone={{timeZone}}&count={{count}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"data",
+								"device",
+								"statistics",
+								"speedtest"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{startDate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{endDate}}"
+								},
+								{
+									"key": "timeZone",
+									"value": "{{timeZone}}"
+								},
+								{
+									"key": "count",
+									"value": "{{count}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Real-Time Monitoring",
+			"item": [
+				{
+					"name": "Application-Aware Route",
+					"item": [
+						{
+							"name": "Retrieve application-aware statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/app-route/statistics?deviceId={{deviceId}}&remote-system-ip={{remoteSystemIp}}&local-color={{localColor}}&remote-color={{remoteColor}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"app-route",
+										"statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-system-ip",
+											"value": "{{remoteSystemIp}}",
+											"description": "(optional)"
+										},
+										{
+											"key": "local-color",
+											"value": "{{localColor}}",
+											"description": "(optional)"
+										},
+										{
+											"key": "remote-color",
+											"value": "{{remoteColor}}",
+											"description": "(optional)"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve SLA class list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/app-route/sla-class?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"app-route",
+										"sla-class"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BFD",
+					"item": [
+						{
+							"name": "Retrieve BFD summary from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve list of BFD sessions from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/sessions?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"sessions"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "system-ip",
+											"value": "{{systemIp}}",
+											"disabled": true
+										},
+										{
+											"key": "color",
+											"value": "{{color}}",
+											"disabled": true
+										},
+										{
+											"key": "local-color",
+											"value": "{{localColor}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve list of BFD sessions from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/synced/sessions?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"synced",
+										"sessions"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "system-ip",
+											"value": "{{systemIp}}",
+											"disabled": true
+										},
+										{
+											"key": "color",
+											"value": "{{color}}",
+											"disabled": true
+										},
+										{
+											"key": "local-color",
+											"value": "{{localColor}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve BFD session history from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/history?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"history"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "system-ip",
+											"value": "{{systemIp}}",
+											"disabled": true
+										},
+										{
+											"key": "color",
+											"value": "{{color}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve BFD summary from device (tloc)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/tloc?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"tloc"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve BFD site summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/sites/summary?isCached={{isCached}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"sites",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "isCached",
+											"value": "{{isCached}}"
+										},
+										{
+											"key": "vpnId",
+											"value": "{{vpnId}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve detailed BFD site summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/sites/detail",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"sites",
+										"detail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device BFD status summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/summary/device?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"summary",
+										"device"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device BFD state summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/state/device?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"state",
+										"device"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get device BFD status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/status",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve list of BFD connections",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/links?state={{state}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"links"
+									],
+									"query": [
+										{
+											"key": "state",
+											"value": "{{state}}",
+											"description": "up/down/not-available"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device BFD state summary with tloc color dia",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/state/device/tloc?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bfd",
+										"state",
+										"device",
+										"tloc"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "BGP",
+					"item": [
+						{
+							"name": "Retrieve BGP summary from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bgp/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bgp",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve list of BGP routes from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bgp/routes?deviceId={{deviceId}}&vpn-id={{vpnId}}&prefix=&nexthop=",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bgp",
+										"routes"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}"
+										},
+										{
+											"key": "prefix",
+											"value": ""
+										},
+										{
+											"key": "nexthop",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve list of BGP neighbors from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bgp/neighbors?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"bgp",
+										"neighbors"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "peer-addr",
+											"value": "{{peerAddr}}",
+											"description": "Peer address",
+											"disabled": true
+										},
+										{
+											"key": "as",
+											"value": "{{as}}",
+											"description": "AS number",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Device Control",
+					"item": [
+						{
+							"name": "Retrieve list of unreachable devices",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/networksummary",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"networksummary"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connections summary from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device control status summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/summary/device?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"summary",
+										"device"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/status",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"status"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connections list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/links?state={{state}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"links"
+									],
+									"query": [
+										{
+											"key": "state",
+											"value": "{{state}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connections list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/synced/connections?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"synced",
+										"connections"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "peer-type",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "system-ip",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connections list history from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/connectionshistory?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"connectionshistory"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "peer-type",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "system-ip",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "local-color",
+											"value": "{{localColor}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve valid vSmart list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/validvsmarts?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"validvsmarts"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve valid vManage from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/validvmanageid?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"validvmanageid"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve valid device list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/validdevices?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"validdevices"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve WAN interface list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/waninterface?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"waninterface"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve WAN interface list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/synced/waninterface?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"synced",
+										"waninterface"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve local properties list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/localproperties?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"localproperties"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve local properties list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/synced/localproperties?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"synced",
+										"localproperties"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve total counts of device states",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/count?isCached={{isCached}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"count"
+									],
+									"query": [
+										{
+											"key": "isCached",
+											"value": "{{isCached}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve port hop colors",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/waninterface/color?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"waninterface",
+										"color"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve affinity config from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/affinity/config?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"affinity",
+										"config"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve affinity status from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/affinity/status?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"affinity",
+										"status"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connection statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/statistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connections list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/connections?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"control",
+										"connections"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "peer-type",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "system-ip",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DHCP",
+					"item": [
+						{
+							"name": "Retrieve DHCP client entries from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dhcp/client?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dhcp",
+										"client"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve DHCP server entries from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dhcp/server?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dhcp",
+										"server"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve DHCP interfaces from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dhcp/interface?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dhcp",
+										"interface"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve DHCPv6 interfaces from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dhcpv6/interface?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dhcpv6",
+										"interface"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DPI",
+					"item": [
+						{
+							"name": "Retrieve DPI applications from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/applications?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"applications"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "application",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "family",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve list of supported applications from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/supported-applications?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"supported-applications"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "application",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "family",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve DPI query field JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/application/fields?isDeviceDashboard=false",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"application",
+										"fields"
+									],
+									"query": [
+										{
+											"key": "isDeviceDashboard",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device DPI query field JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/device/fields",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"device",
+										"fields"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve flows list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/flows?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"flows"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "src-ip",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "application",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "family",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve summary from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve qosmos application list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/qosmos/applications",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"qosmos",
+										"applications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve common application list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/common/applications",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"common",
+										"applications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve detailed DPI querty field JSON",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/dpi/devicedetails/fields",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"dpi",
+										"devicedetails",
+										"fields"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Hardware",
+					"item": [
+						{
+							"name": "Retrieve hardware status summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/status/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"status",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware errored alarm list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/errors",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"errors"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware alarm list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/alarms?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"alarms"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware alarm list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/synced/alarms?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"synced",
+										"alarms"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware system data list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/system?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"system"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware inventory list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/inventory?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"inventory"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware inventory list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/synced/inventory?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"synced",
+										"inventory"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware environment list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/environment?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"environment"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware environment list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/synced/environment?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"synced",
+										"environment"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve hardware temperature threshold list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/hardware/threshold?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"hardware",
+										"threshold"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Interface",
+					"item": [
+						{
+							"name": "Retrieve interfaces from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/synced?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"synced"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interfaces per VPN",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/vpn?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"vpn"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interfaces ARP statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/arp_stats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"arp_stats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interfaces serial ?",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/serial?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"serial"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interface error statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/error_stats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"error_stats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interface packet size statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/pkt_size?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"pkt_size"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interface port statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/port_stats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"port_stats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interface queue statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/queue_stats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"queue_stats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interface statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/stats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"stats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interface IPv6 statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface/ipv6Stats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface",
+										"ipv6Stats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve interfaces from Device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/interface?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"interface"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "ifname",
+											"value": "{{ifName}}",
+											"disabled": true
+										},
+										{
+											"key": "af-type",
+											"value": "{{afType}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "IP",
+					"item": [
+						{
+							"name": "Retrieve FIB list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/fib?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"fib"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "address-family",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "prefix",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "tloc",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "color",
+											"value": "{{color}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve cedge_cef from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/cedge_cef?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"cedge_cef"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "ip-addr",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "af",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve route table list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/routetable?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"routetable"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "vpn-id",
+											"value": "{{vpnId}}",
+											"disabled": true
+										},
+										{
+											"key": "address-family",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "prefix",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "protocol",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IP MFIB OIL list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/mfiboil?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"mfiboil"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IP MFIB statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/mfibstats?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"mfibstats"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate IP MFIB summary list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/mfibsummary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"mfibsummary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NAT interface list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/nat/interface?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"nat",
+										"interface"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NAT translation list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/nat/translation?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"nat",
+										"translation"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NAT filter list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/nat/filter?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"nat",
+										"filter"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "nat-vpn-id",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "nat-ifname",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "private-source-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "proto",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NAT interface statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/nat/interfacestatistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"nat",
+										"interfacestatistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NAT64 interface list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/nat64/translation?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"nat64",
+										"translation"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve ietf routing list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ip/ipRoutes?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ip",
+										"ipRoutes"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "name",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "address-family",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "destination-prefix",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "outgoing-interface",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "source-protocol",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "next-hop-address",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "IPSEC",
+					"item": [
+						{
+							"name": "Retrieve IPsec inbound connection list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/inbound?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"inbound"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "local-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec outbound connection list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/outbound?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"outbound"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec local SA list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/localsa?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"localsa"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec IKE inbound connection list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/ike/inbound?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"ike",
+										"inbound"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec IKE outbound connection list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/ike/outbound?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"ike",
+										"outbound"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec IKE sessions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/ike/sessions?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"ike",
+										"sessions"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Crypto IPsec identity entry from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/identity?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"identity"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "local-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Crypto IPsec IKEv1 SA entry from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/ikev1?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"ikev1"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve Crypto IPsec IKEv2 SA entry from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/ikev2?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"ikev2"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec Pairwise Key Local SA entry from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/pwk/localsa?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"pwk",
+										"localsa"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "local-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec Pairwise Key Inbound entry from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/pwk/inbound?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"pwk",
+										"inbound"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "local-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPsec Pairwise Key Outbound entry from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ipsec/pwk/outbound?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ipsec",
+										"pwk",
+										"outbound"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										},
+										{
+											"key": "remote-tloc-address",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "remote-tloc-color",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "local-tloc-color",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "NTP",
+					"item": [
+						{
+							"name": "Retrieve NTP peer associations list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ntp/associations?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ntp",
+										"associations"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NTP peer status from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ntp/status?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ntp",
+										"status"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve NTP peer list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/ntp/peer?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"ntp",
+										"peer"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "OMP",
+					"item": [
+						{
+							"name": "Retrieve OMP session list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/peers?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"peers"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP session list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/synced/peers?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"synced",
+										"peers"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP received routes list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/routes/received?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"routes",
+										"received"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP advertised routes list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/routes/advertised?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"routes",
+										"advertised"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve received TLOCs list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/tlocs/received?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"tlocs",
+										"received"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve advertised TLOCs list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/tlocs/advertised?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"tlocs",
+										"advertised"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device OMP status",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/status?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"status"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP connection list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/links",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"links"
+									],
+									"query": [
+										{
+											"key": "state",
+											"value": "{{state}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP summary",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP services list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/services?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"services"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP multicast autodiscover received list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/mcastautodiscoverrecv?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"mcastautodiscoverrecv"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP multicast autodiscover advertised list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/mcastautodiscoveradvt?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"mcastautodiscoveradvt"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP multicast routes received list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/mcastroutesrecv?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"mcastroutesrecv"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve OMP multicast routes advertised list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/mcastroutesadvt?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"mcastroutesadvt"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve CloudExpress routes received list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/omp/cloudx?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"omp",
+										"cloudx"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Orchestrator",
+					"item": [
+						{
+							"name": "Retrieve connections summary from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/summary?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"summary"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve reverse proxy mapping from vbond",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/proxymapping?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"proxymapping"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connection history list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/connectionshistory?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"connectionshistory"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve valid vSmart list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/validvsmarts?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"validvsmarts"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve valid vManage ID from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/validvmanageid?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"validvmanageid"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve valid device list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/validvedges?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"validvedges"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve local properties list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/localproperties?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"localproperties"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve connection list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/orchestrator/connections?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"orchestrator",
+										"connections"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Policy",
+					"item": [
+						{
+							"name": "Retrieve access list associations from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/accesslistassociations?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"accesslistassociations"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve access list counters from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/accesslistcounters?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"accesslistcounters"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve access list names from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/accesslistnames?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"accesslistnames"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve access list policers from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/accesslistpolicers?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"accesslistpolicers"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPv6 access list associations from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/ipv6/accesslistassociations?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"ipv6",
+										"accesslistassociations"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPv6 access list counters from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/ipv6/accesslistcounters?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"ipv6",
+										"accesslistcounters"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPv6 access list names from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/ipv6/accesslistnames?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"ipv6",
+										"accesslistnames"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve IPv6 access list policers from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/ipv6/accesslistpolicers?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"ipv6",
+										"accesslistpolicers"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve data policy filters from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/datapolicyfilter?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"datapolicyfilter"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve app route policy filters from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/approutepolicyfilter?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"approutepolicyfilter"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve QoS map information from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/qosmapinfo?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"qosmapinfo"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve QoS scheduler information from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/qosschedulerinfo?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"qosschedulerinfo"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve rewrite associations information from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/rewriteassociations?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"rewriteassociations"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve zone based firewall statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/zbfwstatistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"zbfwstatistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve zone policy zone pair sessions from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/zonepairsessions?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"zonepairsessions"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve zone policy filter information from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/zonepolicyfilter?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"zonepolicyfilter"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve zone based firewall statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/zbfwdropstatistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"zbfwdropstatistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve zone pair statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/policy/zonepairstatistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"policy",
+										"zonepairstatistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reboot History",
+					"item": [
+						{
+							"name": "Retrieve detailed reboot history list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/reboothistory/details",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"reboothistory",
+										"details"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve reboot history list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/reboothistory/synced",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"reboothistory",
+										"synced"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve reboot history list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/reboothistory?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"reboothistory"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Security",
+					"item": [
+						{
+							"name": "Retrieve security information all devices from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/security/information?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"security",
+										"information"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transport",
+					"item": [
+						{
+							"name": "Retrieve transport connection list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/transport/connection?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"transport",
+										"connection"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Tunnel",
+					"item": [
+						{
+							"name": "Retrieve tunnel statistics all devices from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/tunnel/statistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"tunnel",
+										"statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve tunnel BFD statistics all devices from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/tunnel/bfd_statistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"tunnel",
+										"bfd_statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve tunnel IPSec statistics all devices from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/tunnel/ipsec_statistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"tunnel",
+										"ipsec_statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve tunnel GRE keepalives information",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/tunnel/gre-keepalives?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"tunnel",
+										"gre-keepalives"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve tunnel statistics packet duplication",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/tunnel/packet-duplicate?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"tunnel",
+										"packet-duplicate"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve tunnel fec statistics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/tunnel/fec_statistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"tunnel",
+										"fec_statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "System",
+					"item": [
+						{
+							"name": "Retrieve device system process list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/csp/system/processlist?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"csp",
+										"system",
+										"processlist"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device system native settings from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/csp/system/native?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"csp",
+										"system",
+										"native"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device system settings from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/csp/system/settings?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"csp",
+										"system",
+										"settings"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device system settings status from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/csp/system/status?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"csp",
+										"system",
+										"status"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device information list",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/system/info?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"system",
+										"info"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device system status list from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/system/status?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"system",
+										"status"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device system statistics from device",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/system/statistics?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"system",
+										"statistics"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve device system status list from vManage",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{X-XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{vmanage}}:{{port}}/dataservice/device/system/synced/status?deviceId={{deviceId}}",
+									"protocol": "https",
+									"host": [
+										"{{vmanage}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"dataservice",
+										"device",
+										"system",
+										"synced",
+										"status"
+									],
+									"query": [
+										{
+											"key": "deviceId",
+											"value": "{{deviceId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Challenge 1",
+			"item": [
+				{
+					"name": "Retrieve BFD summary from device",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/device/bfd/summary?deviceId={{deviceId}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"device",
+								"bfd",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "deviceId",
+									"value": "{{deviceId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve connections summary from device",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/device/control/summary?deviceId={{deviceId}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"device",
+								"control",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "deviceId",
+									"value": "{{deviceId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get WAN Edge List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/certificate/vedge/list",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"certificate",
+								"vedge",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update WAN Edge Status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n   {\r\n      \"chasisNumber\":\"C8K-5BAF9C99-7676-401F-9DFE-B1A3BEBD644B\",\r\n      \"serialNumber\":\"B30F09D8\",\r\n      \"validity\":\"valid\"\r\n   }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/certificate/save/vedge/list",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"certificate",
+								"save",
+								"vedge",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send to list to Controllers (vSmart)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var taskid = pm.response.json()[\"id\"]\r",
+									"pm.environment.set(\"taskid\", taskid)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/certificate/vedge/list?action=push",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"certificate",
+								"vedge",
+								"list"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "push"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Task Status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n   {\r\n      \"chasisNumber\":\"C8K-5BAF9C99-7676-401F-9DFE-B1A3BEBD644B\",\r\n      \"serialNumber\":\"B30F09D8\",\r\n      \"validity\":\"valid\"\r\n   }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/device/action/status/{{taskid}}",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"device",
+								"action",
+								"status",
+								"{{taskid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Challenge 2",
+			"item": [
+				{
+					"name": "Create Spokes Site List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var spokelist_id = pm.response.json()[\"listId\"]\r",
+									"pm.environment.set(\"spokelist_id\", spokelist_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Spokes-List\",\r\n    \"type\": \"site\",\r\n    \"entries\": [\r\n        {\r\n            \"siteId\": \"3-6\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/policy/list/site/",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"policy",
+								"list",
+								"site",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hub Site List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var hublist_id = pm.response.json()[\"listId\"]\r",
+									"pm.environment.set(\"hublist_id\", hublist_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Hubs-List\",\r\n    \"type\": \"site\",\r\n    \"entries\": [\r\n        {\r\n            \"siteId\": \"1-2\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/policy/list/site/",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"policy",
+								"list",
+								"site",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create VPN List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var vpnlist_id = pm.response.json()[\"listId\"]\r",
+									"pm.environment.set(\"vpnlist_id\", vpnlist_id)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Corp-VPN-List\",\r\n    \"type\": \"vpn\",\r\n    \"entries\": [\r\n        {\r\n            \"vpn\": \"1\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/policy/list/vpn/",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"policy",
+								"list",
+								"vpn",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hub-n-Spoke Policy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{X-XSRF-TOKEN}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Corp-Hub-and-Spoke\",\r\n    \"type\": \"hubAndSpoke\",\r\n    \"description\": \"Corp-Hub-and-Spoke\",\r\n    \"definition\": {\r\n        \"vpnList\": \"{{vpnlist_id}}\",\r\n        \"subDefinitions\": [\r\n            {\r\n                \"name\": \"Corp-Hub-and-Spoke\",\r\n                \"equalPreference\": true,\r\n                \"advertiseTloc\": false,\r\n                \"spokes\" : [\r\n                    {\r\n                        \"siteList\": \"{{spokelist_id}}\",\r\n                        \"hubs\": [\r\n                            {\r\n                                \"siteList\": \"{{hublist_id}}\",\r\n                                \"prefixLists\": [],\r\n                                \"ipv6PrefixLists\": []\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            }\r\n        ]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{vmanage}}:{{port}}/dataservice/template/policy/definition/hubandspoke/",
+							"protocol": "https",
+							"host": [
+								"{{vmanage}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dataservice",
+								"template",
+								"policy",
+								"definition",
+								"hubandspoke",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
